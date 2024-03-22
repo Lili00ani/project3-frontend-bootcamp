@@ -33,6 +33,7 @@ export default function EventDetailPage() {
 
   console.log(event);
 
+  //add image
   const eventInfo = event ? (
     <div>
       <h3>{event.title}</h3>
