@@ -31,8 +31,6 @@ export default function EventDetailPage() {
     setEventId(params.eventId);
   }
 
-  console.log(event);
-
   const eventInfo = event ? (
     <div>
       <h3>{event.title}</h3>
