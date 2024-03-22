@@ -51,7 +51,7 @@ const App = () => {
         <Route path="fav" element={<FavPage />} />
         <Route path="mybooking" element={<MyBookingPage />} />
         <Route path="profile" element={<MyProfilePage />} />
-        <Route path="event" element={<EventDetailPage />} />
+        <Route path="events/:eventId" element={<EventDetailPage />} />
         <Route path="admin/*" element={<AdminRoutes />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
