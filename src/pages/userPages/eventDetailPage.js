@@ -3,14 +3,18 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
 
 //-----------Components-----------//
+import EventBookingPage from "./eventBookingPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export default function EventDetailPage() {
   const [event, setEvent] = useState();
   const [eventId, setEventId] = useState();
+  const [showRegistration, setShowRegistraton] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,6 +35,14 @@ export default function EventDetailPage() {
     setEventId(params.eventId);
   }
 
+  const handleClickOpen = () => {
+    setShowRegistraton(true);
+  };
+
+  const handleClose = () => {
+    setShowRegistraton(false);
+  };
+
   //add image
   const eventInfo = event ? (
     <div>
@@ -48,7 +60,12 @@ export default function EventDetailPage() {
   return (
     <div>
       {eventInfo}
-      <Button>Book</Button>
+      <Button onClick={handleClickOpen}>Book</Button>
+      {showRegistration && (
+        <Dialog open={showRegistration} onClose={handleClose}>
+          <EventBookingPage eventId={eventId} />
+        </Dialog>
+      )}
     </div>
   );
 }
