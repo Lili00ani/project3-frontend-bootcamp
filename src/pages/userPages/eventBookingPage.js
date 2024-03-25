@@ -7,13 +7,14 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { Link } from "react-router-dom";
 
 //-----------Components-----------//
 
 export default function EventBookingPage() {
   return (
     <div>
-      <h1>Booking</h1>
+      <Link to={`/checkout`}>Checkout</Link>
     </div>
   );
 }
