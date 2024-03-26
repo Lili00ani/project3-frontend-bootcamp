@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import {
@@ -14,10 +15,19 @@ const stripePromise = loadStripe(
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const CheckoutForm = () => {
+  const location = useLocation();
+  const eventId = location.state.eventId;
+  const quantity_bought = location.state.quantity;
+
+  console.log(eventId);
+  console.log(quantity_bought);
+
   const fetchClientSecret = useCallback(() => {
     // Create a Checkout Session using axios
     return axios
-      .post("http://localhost:3000/bookings/create-checkout-session/4")
+      .post(`${BACKEND_URL}/bookings/create-checkout-session/${eventId}`, {
+        quantity_bought: quantity_bought,
+      })
       .then((response) => response.data.clientSecret)
       .catch((error) => {
         console.error("Error fetching client secret:", error);

@@ -22,10 +22,12 @@ export default function ReturnPage() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const sessionId = urlParams.get("session_id");
+    const eventId = urlParams.get("eventId");
+    const quantity = urlParams.get("quantity");
 
     axios
       .get(
-        `http://localhost:3000/bookings/session-status?session_id=${sessionId}`
+        `${BACKEND_URL}/bookings/session-status?session_id=${sessionId}&eventId=${eventId}&quantity=${quantity}`
       )
       .then((response) => {
         setStatus(response.data.status);
