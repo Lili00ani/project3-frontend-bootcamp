@@ -4,8 +4,7 @@ import axios from "axios";
 
 //-----------Components-----------//
 import EventPreview from "./EventPreview";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { BACKEND_URL } from "../constant.js";
 
 const EventPreviewList = () => {
   const [events, setEvents] = useState([]);

@@ -10,19 +10,20 @@ import Select from "@mui/material/Select";
 import axios from "axios";
 
 //-----------Components-----------//
+import { BACKEND_URL } from "../../constant.js";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-
-export default function EventBookingPage({ eventId }) {
+export default function EventBookingPage({ eventId, isFree }) {
   const [quantity, setQuantity] = useState("");
   const [capacity, setCapacity] = useState("");
 
+  //will add condition if price is free, don't need to go through stripe payment checkout
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
           `${BACKEND_URL}/bookings/capacity/${eventId}`
         );
+
         setCapacity(response.data.availableCapacity);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -59,7 +60,7 @@ export default function EventBookingPage({ eventId }) {
       </FormControl>
       <Button
         component={Link}
-        to="/checkout"
+        to={isFree ? "/free-return" : "/checkout"}
         state={{ eventId: eventId, quantity: quantity }}
         variant="contained"
         color="primary"

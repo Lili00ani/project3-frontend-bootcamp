@@ -21,6 +21,7 @@ import FavPage from "./pages/userPages/favPage.js";
 import MyBookingPage from "./pages/userPages/myBookingPage.js";
 import MyProfilePage from "./pages/userPages/myProfilePage.js";
 import CheckoutForm from "./pages/userPages/checkOutPage.js";
+import FreeReturnPage from "./pages/userPages/freeReturnPage.js";
 import ReturnPage from "./pages/userPages/returnPage.js";
 
 //-----------AdminPages-----------//
@@ -53,6 +54,7 @@ const App = () => {
         <Route path="fav" element={<FavPage />} />
         <Route path="mybooking" element={<MyBookingPage />} />
         <Route path="checkout" element={<CheckoutForm />} />
+        <Route path="free-return" element={<FreeReturnPage />} />
         <Route path="/return" element={<ReturnPage />} />
         <Route path="profile" element={<MyProfilePage />} />
         <Route path="events/:eventId" element={<EventDetailPage />} />

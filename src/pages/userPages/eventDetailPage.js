@@ -8,19 +8,20 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 //-----------Components-----------//
 import EventBookingPage from "./eventBookingPage";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { BACKEND_URL } from "../../constant.js";
 
 export default function EventDetailPage() {
   const [event, setEvent] = useState();
   const [eventId, setEventId] = useState();
   const [showRegistration, setShowRegistraton] = useState(null);
+  const [isFree, setIsFree] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${BACKEND_URL}/events/${eventId}`);
         setEvent(response.data);
+        setIsFree(response.data.price === 0);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -63,7 +64,7 @@ export default function EventDetailPage() {
       <Button onClick={handleClickOpen}>Book</Button>
       {showRegistration && (
         <Dialog open={showRegistration} onClose={handleClose}>
-          <EventBookingPage eventId={eventId} />
+          <EventBookingPage eventId={eventId} isFree={isFree} />
         </Dialog>
       )}
     </div>
