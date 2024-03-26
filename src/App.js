@@ -53,7 +53,7 @@ const App = () => {
         <Route path="fav" element={<FavPage />} />
         <Route path="mybooking" element={<MyBookingPage />} />
         <Route path="checkout" element={<CheckoutForm />} />
-        <Route path="return" element={<ReturnPage />} />
+        <Route path="/return" element={<ReturnPage />} />
         <Route path="profile" element={<MyProfilePage />} />
         <Route path="events/:eventId" element={<EventDetailPage />} />
         <Route path="admin/*" element={<AdminRoutes />} />

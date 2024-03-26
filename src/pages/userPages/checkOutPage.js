@@ -6,6 +6,7 @@ import {
   EmbeddedCheckout,
 } from "@stripe/react-stripe-js";
 
+//public key
 const stripePromise = loadStripe(
   "pk_test_51OyC8VEkRpzvMxvMLDTzSAtzYuI8Aj98G0UQ3IkjB4ERSxgMQKMb9RNDz0LUq30pttvyJo0TsbnZVVZDxdP8SnIy000n2nrCq9"
 );
