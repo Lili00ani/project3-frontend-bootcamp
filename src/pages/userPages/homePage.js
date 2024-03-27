@@ -2,7 +2,12 @@
 import { useState, useEffect } from "react";
 
 //-----------Components-----------//
+import EventPreviewList from "../../components/EventPreviewList";
 
 export default function HomePage() {
-  return <div>Home</div>;
+  return (
+    <div>
+      <EventPreviewList />
+    </div>
+  );
 }
