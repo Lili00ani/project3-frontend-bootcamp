@@ -5,14 +5,15 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-import EmailIcon from "@mui/icons-material/Email";
+import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import InputAdornment from "@mui/material/InputAdornment";
-import LockIcon from "@mui/icons-material/Lock";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import { CheckCircleOutline, CheckCircle } from "@mui/icons-material";
+import { CheckCircle } from "@mui/icons-material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+
 const SignIn = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const handleRememberMe = () => {
@@ -48,9 +49,9 @@ const SignIn = () => {
               variant="h5"
               component="h2"
               style={{
-                marginBottom: ".5rem",
+                marginBottom: "1.5rem",
                 fontWeight: "bold",
-                textAlign: "center", // Center-align the text
+                textAlign: "start", // Center-align the text
               }}
             >
               Sign in
@@ -66,7 +67,7 @@ const SignIn = () => {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <EmailIcon />
+                      <MailOutlinedIcon />
                     </InputAdornment>
                   ),
                 }}
@@ -81,7 +82,7 @@ const SignIn = () => {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <LockIcon />
+                      <LockOutlinedIcon />
                     </InputAdornment>
                   ),
                 }}
@@ -120,6 +121,8 @@ const SignIn = () => {
                   </ToggleButton>
                 </ToggleButtonGroup>
                 <Button
+                  component={Link}
+                  to="/reset-password"
                   variant="text"
                   style={{
                     color: "#007bff",

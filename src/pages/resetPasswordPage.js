@@ -1,8 +1,7 @@
-//-----------Libraries-----------//
-import { useState, useEffect } from "react";
+import React from 'react'
 
-//-----------Components-----------//
-
-export default function ResetPasswordPage() {
-  return <div>Reset Password Page</div>;
+const resetPasswordPage = () => {
+  return <div>resetPasswordPage</div>;
 }
+
+export default resetPasswordPage
