@@ -4,8 +4,10 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
+import { Box } from "@mui/material";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Typography, Grid } from "@mui/material";
 
 //-----------Components-----------//
 import EventBookingPage from "./eventBookingPage";
@@ -52,22 +54,61 @@ export default function EventDetailPage() {
 
   //add image
   const eventInfo = event ? (
-    <div>
-      <h3>{event.title}</h3>
-      <p>{event.description}</p>
-      <p>{event.language.name}</p>
-      <p>Start: {event.start}</p>
-      <p>End: {event.end}</p>
-      <p>${event.price}</p>
-      <p>{event.admin.name}</p>
-      <p>{event.venue.address}</p>
-    </div>
+    <Box sx={{ margin: "30px" }}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant="h5" gutterBottom>
+            {event.title}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="body1" paragraph>
+            {event.description}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="body1" paragraph>
+            Price: ${event.price}
+          </Typography>
+        </Grid>
+
+        <Box
+          sx={{ display: "flex", justifyContent: "center", marginLeft: "15px" }}
+        >
+          <Button variant="contained" onClick={handleClickOpen}>
+            Book
+          </Button>
+        </Box>
+
+        <Grid item xs={12}>
+          <Typography variant="body1">
+            Language: {event.language.name}
+          </Typography>
+          <Typography variant="body1">
+            {new Date(event.start).toLocaleString("en-US", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+              hour: "numeric",
+              minute: "numeric",
+            })}
+            -
+            {new Date(event.end).toLocaleString("en-US", {
+              hour: "numeric",
+              minute: "numeric",
+            })}
+          </Typography>
+          <Typography variant="body1">{event.admin.name}</Typography>
+          <Typography variant="body1">{event.venue.address}</Typography>
+        </Grid>
+      </Grid>
+    </Box>
   ) : null;
 
   return (
     <div>
       {eventInfo}
-      <Button onClick={handleClickOpen}>Book</Button>
+
       {showRegistration && (
         <Dialog open={showRegistration} onClose={handleClose}>
           <EventBookingPage eventId={eventId} isFree={isFree} />

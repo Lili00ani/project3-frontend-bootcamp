@@ -1,6 +1,7 @@
 //-----------Libraries-----------//
 import { useState, useEffect } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 //-----------Components-----------//
@@ -11,17 +12,21 @@ import "./userPages.css";
 
 export default function SearchPage() {
   const { keyword } = useParams();
+  const { state } = useLocation();
+  const selectedCategories = state && state.categories ? state.categories : [];
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${BACKEND_URL}/events/search/${keyword}`
+          `${BACKEND_URL}/events/search/${keyword}`,
+          {
+            params: { categories: selectedCategories },
+          }
         );
 
         setEvents(response.data);
-        console.log(events);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -29,6 +34,8 @@ export default function SearchPage() {
 
     fetchData();
   }, [keyword]);
+
+  console.log(events);
 
   const eventPreviews =
     events && events.length > 0 ? (
