@@ -5,6 +5,7 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useAuth0 } from "@auth0/auth0-react";
 
 //-----------Components-----------//
 import EventBookingPage from "./eventBookingPage";
@@ -15,6 +16,8 @@ export default function EventDetailPage() {
   const [eventId, setEventId] = useState();
   const [showRegistration, setShowRegistraton] = useState(null);
   const [isFree, setIsFree] = useState(null);
+  const { user, loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
+    useAuth0();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +39,10 @@ export default function EventDetailPage() {
     setEventId(params.eventId);
   }
 
-  const handleClickOpen = () => {
+  const handleClickOpen = async () => {
+    if (!isAuthenticated) {
+      return loginWithRedirect();
+    }
     setShowRegistraton(true);
   };
 
