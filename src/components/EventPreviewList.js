@@ -18,7 +18,6 @@ const EventPreviewList = () => {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
   }, []);
 
