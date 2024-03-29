@@ -23,6 +23,7 @@ import MyProfilePage from "./pages/userPages/myProfilePage.js";
 import CheckoutForm from "./pages/userPages/checkOutPage.js";
 import FreeReturnPage from "./pages/userPages/freeReturnPage.js";
 import ReturnPage from "./pages/userPages/returnPage.js";
+import SearchPage from "./pages/userPages/searchPage.js";
 
 //-----------AdminPages-----------//
 import AdminHomePage from "./pages/adminPages/adminHomePage.js";
@@ -59,6 +60,8 @@ const App = () => {
         <Route path="profile" element={<MyProfilePage />} />
         <Route path="events/:eventId" element={<EventDetailPage />} />
         <Route path="admin/*" element={<AdminRoutes />} />
+        <Route path="search/" element={<SearchPage />} />
+        <Route path="search/:keyword" element={<SearchPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
