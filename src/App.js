@@ -30,6 +30,7 @@ import AdminProfilePage from "./pages/adminPages/adminProfilePage.js";
 import AdminEventPage from "./pages/adminPages/adminEventPage.js";
 import AdminEventAttendancePage from "./pages/adminPages/adminEventAttendancePage.js";
 import AdminAnalyticsPage from "./pages/adminPages/adminAnalyticsPage.js";
+import  { Toaster } from "react-hot-toast";
 
 const AdminRoutes = () => (
   <Routes>
@@ -61,6 +62,7 @@ const App = () => {
         <Route path="admin/*" element={<AdminRoutes />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
+      <Toaster />
     </BrowserRouter>
   );
 };

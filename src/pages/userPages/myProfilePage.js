@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
@@ -12,16 +12,39 @@ import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import SettingsIcon from "@mui/icons-material/Settings";
 import HelpIcon from "@mui/icons-material/Help";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { useLogoutMutation } from "../../slices/usersApiSlices";
+import { logoutt } from "../../slices/AuthSlices";
 
-export default function myProfilePage() {
-  //
+// Refactor the component to start with an uppercase letter
+const MyProfilePage = () => {
   const user = {
     name: "Glory Kendi",
     profileImg: "/logo192.png",
     unreadMessages: 3, // Number of unread messages
   };
-
+  const { userInfo } = useSelector((state) => state.auth);
+  const [logout] = useLogoutMutation(); //  destructuring
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/signin");
+    }
+  }, [navigate, userInfo]);
+  const handleLogout = async (e) => {
+    try {
+      const res = await logout();
+      dispatch(logoutt());
+      // navigate("/signin");
+      // window.location.href = "/signin";
+      toast.success(res?.data?.message);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
   return (
     <div>
       <div
@@ -39,7 +62,7 @@ export default function myProfilePage() {
           <Avatar src={user.profileImg} alt="Profile Image" />
         </div>
         <Typography variant="body1" style={{ marginLeft: 10 }}>
-          {user.name}
+          {userInfo?.name}
         </Typography>
       </div>
       <List>
@@ -90,7 +113,12 @@ export default function myProfilePage() {
           </ListItemIcon>
           <ListItemText primary="Help & FAQs" />
         </ListItem>
-        <ListItem button component={Link} to="/signin">
+        <ListItem
+          button
+          onClick={handleLogout}
+          component={Link}
+          //  to="/signin"
+        >
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>
@@ -102,4 +130,6 @@ export default function myProfilePage() {
       </List>
     </div>
   );
-}
+};
+
+export default MyProfilePage;
