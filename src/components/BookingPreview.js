@@ -38,28 +38,27 @@ const EventPreview = (props) => {
       <CardContent>
         <>
           <Link
-            to={`/events/${props.data.id}`}
-            key={props.data.id}
+            to={`/events/${props.data.event.id}`}
+            key={props.data.event.id}
             style={{ display: "block", textDecoration: "none" }}
           >
             <Typography gutterBottom variant="h5" component="div">
-              {props.data.title}
+              {props.data.event.title}
             </Typography>
-            {/* <Typography variant="body2" color="text.secondary">
-              {props.data.admin.name}
-            </Typography> */}
+
             <Typography variant="body2" color="text.secondary">
-              {formatDate(props.data.start)}-{formatHour(props.data.end)}
+              {formatDate(props.data.event.start)}-
+              {formatHour(props.data.event.end)}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              ${props.data.price}
+              BookingId :${props.data.id}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Quantity :{props.data.quantity_bought}
             </Typography>
           </Link>
         </>
       </CardContent>
-      <CardActions>
-        <Button size="small">Bookmark</Button>
-      </CardActions>
     </Card>
   );
 };
