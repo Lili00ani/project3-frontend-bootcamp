@@ -46,7 +46,7 @@ export default function MyBookingPage() {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${BACKEND_URL}/bookings/current`, {
-          params: { userId: 1 },
+          params: { userId: "0a750c6d-758e-4113-806d-4061f49edd13" },
         });
         console.log(response.data);
         const output = response.data;
@@ -58,32 +58,34 @@ export default function MyBookingPage() {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(`${BACKEND_URL}/bookings/past`, {
-  //         params: { userId: 1 },
-  //       });
-  //       const output = response.data;
-  //       setPast(output.event);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_URL}/bookings/past`, {
+          params: { userId: "0a750c6d-758e-4113-806d-4061f49edd13" },
+        });
+        const output = response.data;
+        setPast(output.event);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const currentPreviews = current.map((booking) => (
-    <BookingPreview data={booking} key={booking.id} />
-  ));
+  const currentPreviews = current
+    ? current.map((booking) => (
+        <BookingPreview data={booking} key={booking.id} />
+      ))
+    : null;
 
-  const pastPreviews = past.map((booking) => (
-    <BookingPreview data={booking} key={booking.id} />
-  ));
+  const pastPreviews = past
+    ? past.map((booking) => <BookingPreview data={booking} key={booking.id} />)
+    : null;
 
   return (
     <div>

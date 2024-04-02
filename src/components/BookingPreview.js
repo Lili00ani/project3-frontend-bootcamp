@@ -36,28 +36,26 @@ const EventPreview = (props) => {
         title="green iguana"
       /> */}
       <CardContent>
-        <>
-          <Link
-            to={`/events/${props.data.event.id}`}
-            key={props.data.event.id}
-            style={{ display: "block", textDecoration: "none" }}
-          >
-            <Typography gutterBottom variant="h5" component="div">
-              {props.data.event.title}
-            </Typography>
+        <Link
+          to={`/events/${props.data.event.id}`}
+          key={props.data.event.id}
+          style={{ display: "block", textDecoration: "none" }}
+        >
+          <Typography gutterBottom variant="h5" component="div">
+            {props.data.event.title}
+          </Typography>
 
-            <Typography variant="body2" color="text.secondary">
-              {formatDate(props.data.event.start)}-
-              {formatHour(props.data.event.end)}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              BookingId :${props.data.id}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Quantity :{props.data.quantity_bought}
-            </Typography>
-          </Link>
-        </>
+          <Typography variant="body2" color="text.secondary">
+            {formatDate(props.data.event.start)}-
+            {formatHour(props.data.event.end)}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            BookingId :${props.data.id}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Quantity :{props.data.quantity_bought}
+          </Typography>
+        </Link>
       </CardContent>
     </Card>
   );
