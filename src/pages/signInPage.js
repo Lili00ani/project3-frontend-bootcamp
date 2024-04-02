@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import InputAdornment from "@mui/material/InputAdornment";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -13,11 +13,41 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { CheckCircle } from "@mui/icons-material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import { useLoginMutation } from "../slices/usersApiSlices";
+import { useDispatch, useSelector } from "react-redux";
+import { setCredentials } from "../slices/AuthSlices";
+import toast from "react-hot-toast";
 
 const SignIn = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const handleRememberMe = () => {
     setRememberMe(!rememberMe);
+  };
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.auth);
+  const [login, { isLoading }] = useLoginMutation();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/profile");
+    }
+  }, [navigate, userInfo]);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await login({ email, password }).unwrap();
+      setEmail("");
+      setPassword("");
+      toast.success(res.message);
+      dispatch(setCredentials({ ...res }));
+      navigate("/profile");
+    } catch (err) {
+      console.log(err?.data?.message || err.error);
+    }
   };
   return (
     <div style={{ height: "100vh", display: "flex", alignItems: "center" }}>
@@ -63,6 +93,7 @@ const SignIn = () => {
                 type="email"
                 placeholder="abc@email.com"
                 fullWidth
+                onChange={(e) => setEmail(e.target.value)}
                 style={{ marginBottom: "1.5rem" }}
                 InputProps={{
                   startAdornment: (
@@ -77,6 +108,8 @@ const SignIn = () => {
                 variant="outlined"
                 type="password"
                 placeholder="Your password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
                 fullWidth
                 style={{ marginBottom: ".5rem" }}
                 InputProps={{
@@ -135,6 +168,7 @@ const SignIn = () => {
               <Button
                 type="submit"
                 variant="contained"
+                onClick={handleLogin}
                 style={{
                   color: "#fff",
                   backgroundColor: "#486453",

@@ -57,6 +57,7 @@ const CheckoutForm = () => {
         throw error; // rethrow the error to handle it elsewhere if needed
       });
   }, [accessToken, eventId, quantity_bought]);
+  //[accessToken, eventId, quantity_bought]);
 
   const options = { fetchClientSecret };
   console.log(options);
