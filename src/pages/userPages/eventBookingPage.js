@@ -8,6 +8,7 @@ import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
 import Select from "@mui/material/Select";
 import axios from "axios";
+import { Box } from "@mui/material";
 
 //-----------Components-----------//
 import { BACKEND_URL } from "../../constant.js";
@@ -41,32 +42,36 @@ export default function EventBookingPage({ eventId, isFree }) {
 
   return (
     <div>
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="quantity-tickets">Tickets</InputLabel>
-        <Select
-          labelId=""
-          id=""
-          value={quantity}
-          label="Quantity"
-          onChange={handleQuantityChange}
+      <Box sx={{ margin: "30px" }}>
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
+          <InputLabel id="quantity-tickets">Tickets</InputLabel>
+          <Select
+            labelId=""
+            id=""
+            value={quantity}
+            label="Quantity"
+            onChange={handleQuantityChange}
+          >
+            {arrayTickets.map((quantity) => (
+              <MenuItem key={quantity} value={quantity}>
+                {quantity}
+              </MenuItem>
+            ))}
+          </Select>
+          <FormHelperText>Quantity</FormHelperText>
+        </FormControl>
+      </Box>
+      <Box sx={{ margin: "30px", display: "flex", justifyContent: "center" }}>
+        <Button
+          component={Link}
+          to={isFree ? "/free-return" : "/checkout"}
+          state={{ eventId: eventId, quantity: quantity }}
+          variant="contained"
+          color="primary"
         >
-          {arrayTickets.map((quantity) => (
-            <MenuItem key={quantity} value={quantity}>
-              {quantity}
-            </MenuItem>
-          ))}
-        </Select>
-        <FormHelperText>Quantity</FormHelperText>
-      </FormControl>
-      <Button
-        component={Link}
-        to={isFree ? "/free-return" : "/checkout"}
-        state={{ eventId: eventId, quantity: quantity }}
-        variant="contained"
-        color="primary"
-      >
-        Checkout
-      </Button>
+          Checkout
+        </Button>
+      </Box>
     </div>
   );
 }
