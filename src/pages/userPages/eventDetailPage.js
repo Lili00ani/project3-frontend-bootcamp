@@ -90,7 +90,7 @@ export default function EventDetailPage() {
           </Button>
         </Box>
 
-        <APIProvider apiKey="AIzaSyC7kF4orTaXdxWzTdpjcEXeLNp33fvcEOM">
+        <APIProvider apiKey={process.env.GOOGLE_MAPS_API_KEY}>
           <Map
             mapId={"bf51a910020fa25a"}
             style={{ width: "100vw", height: "30vh" }}
