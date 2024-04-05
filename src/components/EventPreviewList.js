@@ -22,7 +22,7 @@ const EventPreviewList = () => {
   }, []);
 
   const eventPreviews = events.map((event) => <EventPreview data={event} />);
-  return <div>{eventPreviews}</div>;
+  return <>{eventPreviews}</>;
 };
 
 export default EventPreviewList;

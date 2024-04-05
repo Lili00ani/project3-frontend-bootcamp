@@ -3,6 +3,15 @@ import { useState, useEffect } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "../../theme";
+import {
+  Card,
+  Button,
+  Switch,
+  Backdrop,
+  CircularProgress,
+} from "@mui/material";
 
 //-----------Components-----------//
 import { BACKEND_URL } from "../../constant.js";
@@ -15,6 +24,7 @@ export default function SearchPage() {
   const { state } = useLocation();
   const selectedCategories = state && state.categories ? state.categories : [];
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,8 +37,10 @@ export default function SearchPage() {
         );
 
         setEvents(response.data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+        setLoading(false);
       }
     };
 
@@ -49,9 +61,29 @@ export default function SearchPage() {
     );
 
   return (
-    <div>
-      <SearchBar />
-      {eventPreviews}
-    </div>
+    <ThemeProvider theme={theme}>
+      <div>
+        <div style={{ paddingBottom: "56px" }}>
+          <SearchBar />
+          <Backdrop open={loading} style={{ zIndex: 9999 }}>
+            {" "}
+            {/* Conditionally render Backdrop based on loading state */}
+            <h3>Searching for events...</h3>
+            <CircularProgress color="inherit" />
+          </Backdrop>
+          <div
+            style={{
+              position: "fixed",
+              top: "13vh",
+              height: "85vh",
+              width: "100%",
+              overflowY: "scroll",
+            }}
+          >
+            {eventPreviews}
+          </div>
+        </div>
+      </div>
+    </ThemeProvider>
   );
 }
