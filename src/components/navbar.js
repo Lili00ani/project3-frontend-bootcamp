@@ -32,9 +32,9 @@ export default function NavBar() {
           <Link to="/" sx={{ color: "primary" }}>
             <ExploreIcon />
           </Link>
-          <Link to="/fav">
+          {/* <Link to="/fav">
             <BookmarkIcon />
-          </Link>
+          </Link> */}
           <Link to="/mybooking">
             <EventIcon />
           </Link>
