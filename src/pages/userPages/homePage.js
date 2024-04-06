@@ -11,23 +11,19 @@ import SearchBar from "../../components/searchBar";
 export default function HomePage() {
   return (
     <ThemeProvider theme={theme}>
-      <div>
-        <div style={{ paddingBottom: "56px" }}>
-          <SearchBar />
+      <SearchBar />
 
-          <div
-            style={{
-              position: "fixed",
-              top: "16vh",
-              height: "85vh",
-              width: "100%",
-              overflowY: "scroll",
-            }}
-          >
-            {" "}
-            <EventPreviewList />
-          </div>
-        </div>
+      <div
+        style={{
+          position: "fixed",
+          top: "20vh",
+          height: "70vh",
+          width: "100%",
+          overflowY: "scroll",
+          marginBottom: "20vw",
+        }}
+      >
+        <EventPreviewList />
       </div>
     </ThemeProvider>
   );

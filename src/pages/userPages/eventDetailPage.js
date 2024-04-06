@@ -13,7 +13,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   APIProvider,
   Map,
-  Marker,
   AdvancedMarker,
   Pin,
 } from "@vis.gl/react-google-maps";
@@ -90,7 +89,7 @@ export default function EventDetailPage() {
 
         <APIProvider apiKey={process.env.GOOGLE_MAPS_API_KEY}>
           <Map
-            mapId={"bf51a910020fa25a"}
+            mapId={"eventdetailmap"}
             style={{ width: "100vw", height: "30vh" }}
             defaultCenter={{
               lat: parseFloat(event.venue.lat),
@@ -98,7 +97,7 @@ export default function EventDetailPage() {
             }}
             defaultZoom={13}
             gestureHandling={"greedy"}
-            disableDefaultUI={false}
+            disableDefaultUI={true}
           >
             <AdvancedMarker
               position={{

@@ -19,6 +19,8 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import axios from "axios";
 import Container from "@mui/material/Container";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 
 //-----------Components-----------//
 import "./searchBar.css";
@@ -94,6 +96,7 @@ export default function SearchBar() {
 
   const categoriesList = categories.map((category) => (
     <FormControlLabel
+      key={category.id}
       control={
         <Checkbox
           checked={checkedCategories[category.id]}
@@ -155,12 +158,11 @@ export default function SearchBar() {
     <div
       className="Search-bar"
       style={{
-        position: "fixed",
-        top: 0,
         width: "90%",
+        position: "fixed",
         flexDirection: "column",
-        marginRight: "5vw",
-        paddingRight: "5vw",
+        zIndex: 999,
+        backgroundColor: "white",
       }}
     >
       <Box
@@ -190,6 +192,7 @@ export default function SearchBar() {
             flexGrow: 1,
             marginTop: "10px",
             overflowX: "auto", // Enable vertical scrolling
+            scrollbarWidth: "none",
             maxHeight: "200px", // Adjust the max height as needed
           }}
         >
