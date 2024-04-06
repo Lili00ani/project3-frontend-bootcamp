@@ -22,8 +22,6 @@ import {
 import EventBookingPage from "./eventBookingPage";
 import { BACKEND_URL } from "../../constant.js";
 
-const API_KEY = String(process.env.GOOGLE_MAPS_API_KEY);
-
 export default function EventDetailPage() {
   const [event, setEvent] = useState();
   const [eventId, setEventId] = useState();
@@ -90,7 +88,7 @@ export default function EventDetailPage() {
           </Button>
         </Box>
 
-        <APIProvider apiKey={process.env.GOOGLE_MAPS_API_KEY}>
+        <APIProvider apiKey="AIzaSyC7kF4orTaXdxWzTdpjcEXeLNp33fvcEOM">
           <Map
             mapId={"bf51a910020fa25a"}
             style={{ width: "100vw", height: "30vh" }}

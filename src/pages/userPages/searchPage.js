@@ -29,6 +29,8 @@ export default function SearchPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setEvents([]);
+        setLoading(true);
         const response = await axios.get(
           `${BACKEND_URL}/events/search/${keyword}`,
           {
@@ -45,7 +47,7 @@ export default function SearchPage() {
     };
 
     fetchData();
-  }, [keyword]);
+  }, [keyword, selectedCategories]);
 
   console.log(events);
 
