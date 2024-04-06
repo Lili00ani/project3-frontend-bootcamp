@@ -49,8 +49,6 @@ export default function SearchPage() {
     fetchData();
   }, [keyword, selectedCategories]);
 
-  console.log(events);
-
   const eventPreviews =
     events && events.length > 0 ? (
       <div>
