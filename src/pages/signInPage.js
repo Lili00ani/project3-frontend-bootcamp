@@ -8,47 +8,57 @@ import { Link, useNavigate } from "react-router-dom";
 import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import InputAdornment from "@mui/material/InputAdornment";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { CheckCircle } from "@mui/icons-material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import { useLoginMutation } from "../slices/usersApiSlices";
-import { useDispatch, useSelector } from "react-redux";
-import { setCredentials } from "../slices/AuthSlices";
+// import { useLoginMutation } from "../slices/usersApiSlices";
+// import { useDispatch, useSelector } from "react-redux";
+// import { setCredentials } from "../slices/AuthSlices";
 import toast from "react-hot-toast";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const SignIn = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const handleRememberMe = () => {
     setRememberMe(!rememberMe);
   };
-  const dispatch = useDispatch();
-  const { userInfo } = useSelector((state) => state.auth);
-  const [login, { isLoading }] = useLoginMutation();
+  // const dispatch = useDispatch();
+  // const { userInfo } = useSelector((state) => state.auth);
+  // const [login, { isLoading }] = useLoginMutation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {
+    loginWithRedirect,
+    loginWithPopup,
+    isAuthenticated,
+
+    logout,
+    isLoading,
+    user,
+  } = useAuth0();
   const navigate = useNavigate();
   useEffect(() => {
-    if (userInfo) {
+    if (isAuthenticated) {
       navigate("/profile");
     }
-  }, [navigate, userInfo]);
+  }, [navigate]);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await login({ email, password }).unwrap();
-      setEmail("");
-      setPassword("");
-      toast.success(res.message);
-      dispatch(setCredentials({ ...res }));
-      navigate("/profile");
-    } catch (err) {
-      console.log(err?.data?.message || err.error);
-    }
-  };
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const res = await login({ email, password }).unwrap();
+  //     setEmail("");
+  //     setPassword("");
+  //     toast.success(res.message);
+  //     dispatch(setCredentials({ ...res }));
+  //     navigate("/profile");
+  //   } catch (err) {
+  //     console.log(err?.data?.message || err.error);
+  //   }
+  // };
   return (
     <div style={{ height: "100vh", display: "flex", alignItems: "center" }}>
       <Grid container justifyContent="center">
@@ -62,7 +72,7 @@ const SignIn = () => {
               boxShadow: "none",
             }}
           >
-            <Typography
+            {/* <Typography
               variant="h1"
               component="h2"
               style={{
@@ -85,9 +95,9 @@ const SignIn = () => {
               }}
             >
               Sign in
-            </Typography>
+            </Typography> */}
             <form>
-              <TextField
+              {/* <TextField
                 label="Email"
                 variant="outlined"
                 type="email"
@@ -164,45 +174,48 @@ const SignIn = () => {
                 >
                   Forgot Password?
                 </Button>
-              </div>
-              <Button
-                type="submit"
-                variant="contained"
-                onClick={handleLogin}
-                style={{
-                  color: "#fff",
-                  backgroundColor: "#486453",
-                  borderRadius: "4px",
-                  padding: ".5rem",
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <span
+              </div> */}
+              {!isAuthenticated && (
+                <Button
+                  type="submit"
+                  variant="contained"
+                  onClick={() => loginWithRedirect()}
                   style={{
-                    margin: "auto",
-                    fontSize: "16px",
-                  }}
-                >
-                  Sign In
-                </span>
-                <div
-                  style={{
-                    backgroundColor: "#68C598",
-                    borderRadius: "50%",
-                    padding: "0.5rem",
-                    marginLeft: "0.5rem",
+                    color: "#fff",
+                    backgroundColor: "#486453",
+                    borderRadius: "4px",
+                    padding: ".5rem",
+                    width: "100%",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                   }}
                 >
-                  <ArrowForwardIcon />
-                </div>
-              </Button>
-              <Typography
+                  <span
+                    style={{
+                      margin: "auto",
+                      fontSize: "16px",
+                    }}
+                  >
+                    Sign In
+                  </span>
+                  <div
+                    style={{
+                      backgroundColor: "#68C598",
+                      borderRadius: "50%",
+                      padding: "0.5rem",
+                      marginLeft: "0.5rem",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ArrowForwardIcon />
+                  </div>
+                </Button>
+              )}
+
+              {/* <Typography
                 variant="body1"
                 align="center"
                 style={{ marginTop: "1.5rem" }}
@@ -214,7 +227,7 @@ const SignIn = () => {
                 >
                   Sign Up
                 </Link>
-              </Typography>
+              </Typography> */}
             </form>
           </Paper>
         </Grid>

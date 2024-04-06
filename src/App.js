@@ -1,6 +1,6 @@
 //-----------Libraries-----------//
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 //-----------Components-----------//
 import NavBar from "./components/navbar.js";
@@ -30,7 +30,11 @@ import AdminProfilePage from "./pages/adminPages/adminProfilePage.js";
 import AdminEventPage from "./pages/adminPages/adminEventPage.js";
 import AdminEventAttendancePage from "./pages/adminPages/adminEventAttendancePage.js";
 import AdminAnalyticsPage from "./pages/adminPages/adminAnalyticsPage.js";
-import  { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
+
+// Auth0
+import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 
 const AdminRoutes = () => (
   <Routes>
@@ -44,23 +48,36 @@ const AdminRoutes = () => (
 );
 
 const App = () => {
+  const {
+    loginWithRedirect,
+    loginWithPopup,
+    isAuthenticated,
+    logout,
+    isLoading,
+    getAccessTokenSilently,
+    user,
+  } = useAuth0();
+
   return (
     <BrowserRouter>
-      <NavBar />
+      {isAuthenticated && <NavBar />}
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="register" element={<RegisterPage />} />
-        <Route path="reset-password" element={<ResetPasswordPage />} />
-        <Route path="signin" element={<SignInPage />} />
-        <Route path="fav" element={<FavPage />} />
-        <Route path="mybooking" element={<MyBookingPage />} />
-        <Route path="checkout" element={<CheckoutForm />} />
-        <Route path="free-return" element={<FreeReturnPage />} />
-        <Route path="/return" element={<ReturnPage />} />
-        <Route path="profile" element={<MyProfilePage />} />
-        <Route path="events/:eventId" element={<EventDetailPage />} />
-        <Route path="admin/*" element={<AdminRoutes />} />
-        <Route path="*" element={<ErrorPage />} />
+        {!isAuthenticated ? (
+          <Route path="/signin" element={<SignInPage />} /> // Show SignInPage if not authenticated
+        ) : (
+          <>
+            <Route path="/profile" element={<MyProfilePage />} />
+            <Route path="fav" element={<FavPage />} />
+            <Route path="mybooking" element={<MyBookingPage />} />
+            <Route path="checkout" element={<CheckoutForm />} />
+            <Route path="free-return" element={<FreeReturnPage />} />
+            <Route path="/return" element={<ReturnPage />} />
+            <Route path="events/:eventId" element={<EventDetailPage />} />
+            <Route path="admin/*" element={<AdminRoutes />} />
+            <Route path="*" element={<ErrorPage />} />
+          </>
+        )}
       </Routes>
       <Toaster />
     </BrowserRouter>
