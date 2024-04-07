@@ -34,17 +34,25 @@ const SignIn = () => {
     loginWithRedirect,
     loginWithPopup,
     isAuthenticated,
-
+    getAccessTokenSilently,
     logout,
     isLoading,
     user,
   } = useAuth0();
   const navigate = useNavigate();
-  useEffect(() => {
+  const [accessToken, setAccessToken] = useState();
+  const checkUser = async () => {
     if (isAuthenticated) {
+      let token = await getAccessTokenSilently();
+      setAccessToken(token);
       navigate("/profile");
+    } else {
+      loginWithRedirect();
     }
-  }, [navigate]);
+  };
+  useEffect(() => {
+    checkUser();
+  }, []);
 
   // const handleLogin = async (e) => {
   //   e.preventDefault();

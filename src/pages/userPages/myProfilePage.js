@@ -33,7 +33,7 @@ const MyProfilePage = () => {
     if (isAuthenticated) {
       let token = await getAccessTokenSilently();
       setAccessToken(token);
-      console.log("🚀 ~ useEffect ~ token:", token);
+      console.log(token);
     } else {
       loginWithRedirect();
     }

@@ -18,7 +18,7 @@ root.render(
     clientId={clientId}
     redirectUri={window.location.origin}
     audience={AUDIENCE}
-    scope="read:current_user update:current_user_metadata"
+    scope="openid email profile"
   >
     <App />
   </Auth0Provider>

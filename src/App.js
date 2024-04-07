@@ -58,6 +58,7 @@ const App = () => {
     user,
   } = useAuth0();
 
+  
   return (
     <BrowserRouter>
       {isAuthenticated && <NavBar />}
