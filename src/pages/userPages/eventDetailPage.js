@@ -1,14 +1,9 @@
 //-----------Libraries-----------//
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import { Box } from "@mui/material";
-import DialogTitle from "@mui/material/DialogTitle";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Typography, Grid } from "@mui/material";
-import { createRoot } from "react-dom/client";
+import axios from "axios";
+import { Button, Dialog, Box, Typography, Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   APIProvider,

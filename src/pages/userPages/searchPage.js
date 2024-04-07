@@ -1,11 +1,9 @@
 //-----------Libraries-----------//
 import { useState, useEffect, useRef } from "react";
-import { useOutletContext, useParams } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useOutletContext, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
-import { Grid, Box } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
-import theme from "../../theme";
+import { Box, Grid, ThemeProvider } from "@mui/material";
+
 import {
   APIProvider,
   Map,
@@ -18,6 +16,7 @@ import { BACKEND_URL } from "../../constant.js";
 import EventPreview from "../../components/EventPreview.js";
 import SearchBar from "../../components/searchBar";
 import "./userPages.css";
+import theme from "../../theme";
 
 export default function SearchPage() {
   const { keyword } = useParams();

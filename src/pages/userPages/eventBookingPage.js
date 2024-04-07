@@ -1,16 +1,9 @@
 //-----------Libraries-----------//
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
-import Button from "@mui/material/Button";
-import Select from "@mui/material/Select";
 import axios from "axios";
-import { Box } from "@mui/material";
-import Typography from "@mui/material/Typography";
-import { ThemeProvider } from "@mui/material/styles";
+import { Box, Button, Typography, ThemeProvider } from "@mui/material";
+import { styles } from "@mui/system";
 
 //-----------Components-----------//
 import { BACKEND_URL } from "../../constant.js";
@@ -50,12 +43,6 @@ export default function EventBookingPage({ eventId, isFree }) {
     fetchData();
   }, [eventId]);
 
-  // const handleQuantityChange = (event) => {
-  //   setQuantity(event.target.value);
-  // };
-
-  // const arrayTickets = Array.from({ length: capacity }, (_, i) => i + 1);
-
   const handleIncrement = () => {
     if (quantity < capacity) {
       setQuantity(quantity + 1);
@@ -91,24 +78,6 @@ export default function EventBookingPage({ eventId, isFree }) {
             display: "flex",
           }}
         >
-          {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel id="quantity-tickets">Tickets</InputLabel>
-          <Select
-            labelId=""
-            id=""
-            value={quantity}
-            label="Quantity"
-            onChange={handleQuantityChange}
-          >
-            {arrayTickets.map((quantity) => (
-              <MenuItem key={quantity} value={quantity}>
-                {quantity}
-              </MenuItem>
-            ))}
-          </Select>
-          <FormHelperText>Quantity</FormHelperText>
-        </FormControl> */}
-
           <Button onClick={handleDecrement}>-</Button>
           <Typography variant="h3" sx={{ margin: "5vw" }}>
             {quantity}
