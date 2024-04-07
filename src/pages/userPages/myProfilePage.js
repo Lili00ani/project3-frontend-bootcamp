@@ -18,15 +18,29 @@ import { Link, useNavigate } from "react-router-dom";
 
 // Refactor the component to start with an uppercase letter
 const MyProfilePage = () => {
-  const { isAuthenticated, logout, isLoading, getAccessTokenSilently, user } =
-    useAuth0();
+  const {
+    isAuthenticated,
+    loginWithRedirect,
+    logout,
+    isLoading,
+    getAccessTokenSilently,
+    user,
+  } = useAuth0();
   const domain = process.env.REACT_APP_AUTH0_DOMAIN;
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/");
+  const [accessToken, setAccessToken] = useState();
+  const checkUser = async () => {
+    if (isAuthenticated) {
+      let token = await getAccessTokenSilently();
+      setAccessToken(token);
+      console.log("🚀 ~ useEffect ~ token:", token);
+    } else {
+      loginWithRedirect();
     }
-  }, [isAuthenticated, navigate]);
+  };
+  useEffect(() => {
+    checkUser();
+  }, []);
   return (
     <div>
       {isLoading ? (

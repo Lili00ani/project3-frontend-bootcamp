@@ -21,7 +21,8 @@ const EventPreviewList = () => {
     fetchData();
   }, []);
 
-  const eventPreviews = events.map((event) => <EventPreview data={event} />);
+  const eventPreviews =
+    events && events?.map((event) => <EventPreview data={event} />);
   return <div>{eventPreviews}</div>;
 };
 
