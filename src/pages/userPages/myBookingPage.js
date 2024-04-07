@@ -6,10 +6,12 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import axios from "axios";
+import { ThemeProvider } from "@mui/material/styles";
 
 //-----------Components-----------//
 import { BACKEND_URL } from "../../constant.js";
 import BookingPreview from "../../components/BookingPreview.js";
+import theme from "../../theme";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -22,11 +24,7 @@ function CustomTabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 2 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Typography>{children}</Typography>}
     </div>
   );
 }
@@ -88,28 +86,30 @@ export default function MyBookingPage() {
     : null;
 
   return (
-    <div>
-      <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            indicatorColor="secondary"
-            textColor="inherit"
-            variant="fullWidth"
-            aria-label="basic tabs example"
-          >
-            <Tab label="Upcoming" />
-            <Tab label="Past Events" />
-          </Tabs>
-        </Box>
-        <CustomTabPanel value={value} index={0}>
-          {currentPreviews}
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          {pastPreviews}
-        </CustomTabPanel>
+    <ThemeProvider theme={theme}>
+      <Box
+        sx={{
+          borderColor: "divider",
+        }}
+      >
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="secondary"
+          textColor="inherit"
+          variant="fullWidth"
+          aria-label="basic tabs example"
+        >
+          <Tab label="Upcoming" />
+          <Tab label="Past Events" />
+        </Tabs>
       </Box>
-    </div>
+      <CustomTabPanel value={value} index={0}>
+        {currentPreviews}
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+        {pastPreviews}
+      </CustomTabPanel>
+    </ThemeProvider>
   );
 }

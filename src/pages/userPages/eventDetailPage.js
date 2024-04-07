@@ -1,13 +1,16 @@
 //-----------Libraries-----------//
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import { Box } from "@mui/material";
-import DialogTitle from "@mui/material/DialogTitle";
+import { useParams, Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Typography, Grid } from "@mui/material";
+import axios from "axios";
+import { Button, Dialog, Box, Typography, Grid } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {
+  APIProvider,
+  Map,
+  AdvancedMarker,
+  Pin,
+} from "@vis.gl/react-google-maps";
 
 //-----------Components-----------//
 import EventBookingPage from "./eventBookingPage";
@@ -71,7 +74,6 @@ export default function EventDetailPage() {
             Price: ${event.price}
           </Typography>
         </Grid>
-
         <Box
           sx={{ display: "flex", justifyContent: "center", marginLeft: "15px" }}
         >
@@ -80,6 +82,33 @@ export default function EventDetailPage() {
           </Button>
         </Box>
 
+        <APIProvider apiKey={process.env.GOOGLE_MAPS_API_KEY}>
+          <Map
+            mapId={"eventdetailmap"}
+            style={{ width: "100vw", height: "30vh" }}
+            defaultCenter={{
+              lat: parseFloat(event.venue.lat),
+              lng: parseFloat(event.venue.lng),
+            }}
+            defaultZoom={13}
+            gestureHandling={"greedy"}
+            disableDefaultUI={true}
+          >
+            <AdvancedMarker
+              position={{
+                lat: parseFloat(event.venue.lat),
+                lng: parseFloat(event.venue.lng),
+              }}
+              title={"AdvancedMarker with customized pin."}
+            >
+              <Pin
+                background={"#22ccff"}
+                borderColor={"#1e89a1"}
+                glyphColor={"#0f677a"}
+              ></Pin>
+            </AdvancedMarker>
+          </Map>
+        </APIProvider>
         <Grid item xs={12}>
           <Typography variant="body1">
             Language: {event.language.name}
@@ -107,6 +136,9 @@ export default function EventDetailPage() {
 
   return (
     <div>
+      <Link to="/">
+        <ArrowBackIcon />
+      </Link>
       {eventInfo}
 
       {showRegistration && (

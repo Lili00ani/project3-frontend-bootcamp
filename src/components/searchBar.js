@@ -8,6 +8,7 @@ import { Input, IconButton } from "@mui/material";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
+import { Chip, Stack } from "@mui/material";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
@@ -17,13 +18,16 @@ import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import axios from "axios";
+import Container from "@mui/material/Container";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 
 //-----------Components-----------//
 import "./searchBar.css";
 import { BACKEND_URL } from "../constant.js";
 
 export default function SearchBar() {
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState("all");
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
@@ -35,7 +39,7 @@ export default function SearchBar() {
         const response = await axios.get(`${BACKEND_URL}/categories`);
         const initialCheckedCategories = {};
         response.data.forEach((category) => {
-          initialCheckedCategories[category.id] = true;
+          initialCheckedCategories[category.id] = false;
         });
         setCheckedCategories(initialCheckedCategories);
         setCategories(response.data);
@@ -55,6 +59,7 @@ export default function SearchBar() {
       const selectedCategories = Object.keys(checkedCategories).filter(
         (categoryId) => checkedCategories[categoryId]
       );
+
       navigate(`/search/${keyword}`, {
         state: { categories: selectedCategories },
       });
@@ -71,6 +76,16 @@ export default function SearchBar() {
     }));
   };
 
+  const chips = categories.map((category) => (
+    <Chip
+      key={category.id}
+      label={category.name}
+      clickable
+      color={checkedCategories[category.id] ? "secondary" : "default"}
+      onClick={() => handleCategoryToggle(category.id)}
+    />
+  ));
+
   const handleResetCategory = () => {
     const resetCategories = {};
     Object.keys(checkedCategories).forEach((categoryId) => {
@@ -81,6 +96,7 @@ export default function SearchBar() {
 
   const categoriesList = categories.map((category) => (
     <FormControlLabel
+      key={category.id}
       control={
         <Checkbox
           checked={checkedCategories[category.id]}
@@ -139,16 +155,58 @@ export default function SearchBar() {
   );
 
   return (
-    <div className="Search-bar">
-      <Input
-        fullWidth
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
-      />
-      <SearchIcon onClick={handleSubmit} />
-      <Button onClick={toggleDrawer(true)}>
-        <TuneIcon />
-      </Button>
+    <div
+      className="Search-bar"
+      style={{
+        width: "90%",
+        position: "fixed",
+        flexDirection: "column",
+        zIndex: 999,
+        backgroundColor: "white",
+      }}
+    >
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center", // Center content horizontally
+        }}
+      >
+        <Input
+          fullWidth
+          onChange={(e) => setKeyword(e.target.value)}
+          defaultValue="all"
+        />
+        <SearchIcon onClick={handleSubmit} />
+      </Box>
+
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          style={{
+            flexGrow: 1,
+            marginTop: "10px",
+            overflowX: "auto", // Enable vertical scrolling
+            scrollbarWidth: "none",
+            maxHeight: "200px", // Adjust the max height as needed
+          }}
+        >
+          <Stack direction="row" spacing={1}>
+            <Chip
+              onClick={toggleDrawer(true)}
+              icon={<TuneIcon />}
+              label="Filter"
+            />
+            {chips}
+          </Stack>
+        </div>
+      </Box>
+
       <Drawer anchor="bottom" open={open} onClose={toggleDrawer(false)}>
         {FilterList}
       </Drawer>
