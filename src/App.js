@@ -27,7 +27,6 @@ import ReturnPage from "./pages/userPages/returnPage.js";
 //-----------AdminPages-----------//
 import AdminHomePage from "./pages/adminPages/adminHomePage.js";
 import AdminProfilePage from "./pages/adminPages/adminProfilePage.js";
-import AdminEventPage from "./pages/adminPages/adminEventPage.js";
 import AdminEventAttendancePage from "./pages/adminPages/adminEventAttendancePage.js";
 import AdminAnalyticsPage from "./pages/adminPages/adminAnalyticsPage.js";
 import { Toaster } from "react-hot-toast";
@@ -35,13 +34,14 @@ import { Toaster } from "react-hot-toast";
 // Auth0
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
+import AdminCreateEvent from "./pages/adminPages/AdminCreateEvent.jsx";
 
 const AdminRoutes = () => (
   <Routes>
     <Route path="/" element={<AdminHomePage />} />
     <Route path="attendance" element={<AdminEventAttendancePage />} />
-    <Route path="edit" element={<AdminEventPage />} />
-    <Route path="add" element={<AdminEventPage />} />
+    <Route path="edit" element={<AdminCreateEvent />} />
+    <Route path="add" element={<AdminCreateEvent />} />
     <Route path="profile" element={<AdminProfilePage />} />
     <Route path="analytics" element={<AdminAnalyticsPage />} />
   </Routes>
@@ -58,7 +58,6 @@ const App = () => {
     user,
   } = useAuth0();
 
-  
   return (
     <BrowserRouter>
       {isAuthenticated && <NavBar />}
