@@ -3,12 +3,10 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
-<<<<<<< HEAD
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
+// import Button from "@mui/material/Button";
+// import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useAuth0 } from "@auth0/auth0-react";
-=======
+// import { useAuth0 } from "@auth0/auth0-react";
 import { Button, Dialog, Box, Typography, Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
@@ -17,7 +15,6 @@ import {
   AdvancedMarker,
   Pin,
 } from "@vis.gl/react-google-maps";
->>>>>>> 8d6a58a5e491ca15f55d3d6c85ba08203453c730
 
 //-----------Components-----------//
 import EventBookingPage from "./eventBookingPage";
@@ -28,8 +25,10 @@ export default function EventDetailPage() {
   const [eventId, setEventId] = useState();
   const [showRegistration, setShowRegistraton] = useState(null);
   const [isFree, setIsFree] = useState(null);
-<<<<<<< HEAD
-  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
+  const { user, loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
+    useAuth0();
+
+  // const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
   const [accessToken, setAccessToken] = useState();
   const fetchData = async () => {
     if (isAuthenticated) {
@@ -48,11 +47,7 @@ export default function EventDetailPage() {
       console.error("Error fetching data:", error);
     }
   };
-=======
-  const { user, loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
-    useAuth0();
 
->>>>>>> 8d6a58a5e491ca15f55d3d6c85ba08203453c730
   useEffect(() => {
     fetchData();
   }, [eventId]);

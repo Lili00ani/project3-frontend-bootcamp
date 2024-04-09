@@ -30,8 +30,11 @@ import AdminProfilePage from "./pages/adminPages/adminProfilePage.js";
 import AdminEventAttendancePage from "./pages/adminPages/adminEventAttendancePage.js";
 import AdminAnalyticsPage from "./pages/adminPages/adminAnalyticsPage.js";
 import { Toaster } from "react-hot-toast";
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import NavBar from "./components/navbar.js";
 // Auth0
+import SignInPage from "./pages/signInPage.js";  
+import ErrorPage from "./pages/errorPage.js";  
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import AdminCreateEvent from "./pages/adminPages/AdminCreateEvent.jsx";
@@ -49,8 +52,6 @@ const AdminRoutes = () => (
 
 const App = () => {
   const {
-    loginWithRedirect,
-    loginWithPopup,
     isAuthenticated,
     logout,
     isLoading,
@@ -84,4 +85,4 @@ const App = () => {
   );
 };
 
-// export default App;
+export default App;
