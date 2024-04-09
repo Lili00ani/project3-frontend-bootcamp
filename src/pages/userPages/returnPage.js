@@ -42,6 +42,7 @@ export default function ReturnPage() {
   if (status === "open") {
     return <Navigate to="/checkout" />;
   }
+  console.log(status);
 
   if (status === "complete") {
     return (

@@ -1,5 +1,6 @@
 //-----------Libraries-----------//
 import { useState, useEffect } from "react";
+<<<<<<< HEAD
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
@@ -7,6 +8,16 @@ import Button from "@mui/material/Button";
 import EventPreviewList from "../../components/EventPreviewList";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useAuth0 } from "@auth0/auth0-react";
+=======
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "../../theme";
+import Typography from "@mui/material/Typography";
+
+//-----------Components-----------//
+import EventPreviewList from "../../components/EventPreviewList";
+import SearchBar from "../../components/searchBar";
+
+>>>>>>> 8d6a58a5e491ca15f55d3d6c85ba08203453c730
 export default function HomePage() {
   const {
     loginWithRedirect,
@@ -61,6 +72,7 @@ export default function HomePage() {
     );
   }
   return (
+<<<<<<< HEAD
     <div>
       {!isAuthenticated ? (
         <div style={{ height: "100vh", display: "flex", alignItems: "center" }}>
@@ -120,5 +132,23 @@ export default function HomePage() {
         <EventPreviewList />
       )}
     </div>
+=======
+    <ThemeProvider theme={theme}>
+      <SearchBar />
+
+      <div
+        style={{
+          position: "fixed",
+          top: "20vh",
+          height: "70vh",
+          width: "100%",
+          overflowY: "scroll",
+          marginBottom: "20vw",
+        }}
+      >
+        <EventPreviewList />
+      </div>
+    </ThemeProvider>
+>>>>>>> 8d6a58a5e491ca15f55d3d6c85ba08203453c730
   );
 }

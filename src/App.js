@@ -1,18 +1,18 @@
-//-----------Libraries-----------//
-import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+// //-----------Libraries-----------//
+// import React, { useEffect, useState } from "react";
+// import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-//-----------Components-----------//
-import NavBar from "./components/navbar.js";
+// //-----------Components-----------//
+// import NavBar from "./components/navbar.js";
 
-//-----------Styling-----------//
-import "./index.css";
+// //-----------Styling-----------//
+// import "./index.css";
 
-//-----------Pages-----------//
-import RegisterPage from "./pages/registerPage.js";
-import SignInPage from "./pages/signInPage.js";
-import ResetPasswordPage from "./pages/resetPasswordPage.js";
-import ErrorPage from "./pages/errorPage.js";
+// //-----------Pages-----------//
+// import RegisterPage from "./pages/registerPage.js";
+// import SignInPage from "./pages/signInPage.js";
+// import ResetPasswordPage from "./pages/resetPasswordPage.js";
+// import ErrorPage from "./pages/errorPage.js";
 
 //-----------UserPages-----------//
 import HomePage from "./pages/userPages/homePage.js";
@@ -84,4 +84,4 @@ const App = () => {
   );
 };
 
-export default App;
+// export default App;

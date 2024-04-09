@@ -1,11 +1,23 @@
 //-----------Libraries-----------//
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
+<<<<<<< HEAD
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useAuth0 } from "@auth0/auth0-react";
+=======
+import { Button, Dialog, Box, Typography, Grid } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {
+  APIProvider,
+  Map,
+  AdvancedMarker,
+  Pin,
+} from "@vis.gl/react-google-maps";
+>>>>>>> 8d6a58a5e491ca15f55d3d6c85ba08203453c730
 
 //-----------Components-----------//
 import EventBookingPage from "./eventBookingPage";
@@ -16,6 +28,7 @@ export default function EventDetailPage() {
   const [eventId, setEventId] = useState();
   const [showRegistration, setShowRegistraton] = useState(null);
   const [isFree, setIsFree] = useState(null);
+<<<<<<< HEAD
   const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
   const [accessToken, setAccessToken] = useState();
   const fetchData = async () => {
@@ -35,6 +48,11 @@ export default function EventDetailPage() {
       console.error("Error fetching data:", error);
     }
   };
+=======
+  const { user, loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
+    useAuth0();
+
+>>>>>>> 8d6a58a5e491ca15f55d3d6c85ba08203453c730
   useEffect(() => {
     fetchData();
   }, [eventId]);
@@ -45,7 +63,10 @@ export default function EventDetailPage() {
     setEventId(params.eventId);
   }
 
-  const handleClickOpen = () => {
+  const handleClickOpen = async () => {
+    if (!isAuthenticated) {
+      return loginWithRedirect();
+    }
     setShowRegistraton(true);
   };
 
@@ -55,22 +76,90 @@ export default function EventDetailPage() {
 
   //add image
   const eventInfo = event ? (
-    <div>
-      <h3>{event.title}</h3>
-      <p>{event.description}</p>
-      <p>{event.language.name}</p>
-      <p>Start: {event.start}</p>
-      <p>End: {event.end}</p>
-      <p>${event.price}</p>
-      <p>{event.admin.name}</p>
-      <p>{event.venue.address}</p>
-    </div>
+    <Box sx={{ margin: "30px" }}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant="h5" gutterBottom>
+            {event.title}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="body1" paragraph>
+            {event.description}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="body1" paragraph>
+            Price: ${event.price}
+          </Typography>
+        </Grid>
+        <Box
+          sx={{ display: "flex", justifyContent: "center", marginLeft: "15px" }}
+        >
+          <Button variant="contained" onClick={handleClickOpen}>
+            Book
+          </Button>
+        </Box>
+
+        <APIProvider apiKey={process.env.GOOGLE_MAPS_API_KEY}>
+          <Map
+            mapId={"eventdetailmap"}
+            style={{ width: "100vw", height: "30vh" }}
+            defaultCenter={{
+              lat: parseFloat(event.venue.lat),
+              lng: parseFloat(event.venue.lng),
+            }}
+            defaultZoom={13}
+            gestureHandling={"greedy"}
+            disableDefaultUI={true}
+          >
+            <AdvancedMarker
+              position={{
+                lat: parseFloat(event.venue.lat),
+                lng: parseFloat(event.venue.lng),
+              }}
+              title={"AdvancedMarker with customized pin."}
+            >
+              <Pin
+                background={"#22ccff"}
+                borderColor={"#1e89a1"}
+                glyphColor={"#0f677a"}
+              ></Pin>
+            </AdvancedMarker>
+          </Map>
+        </APIProvider>
+        <Grid item xs={12}>
+          <Typography variant="body1">
+            Language: {event.language.name}
+          </Typography>
+          <Typography variant="body1">
+            {new Date(event.start).toLocaleString("en-US", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+              hour: "numeric",
+              minute: "numeric",
+            })}
+            -
+            {new Date(event.end).toLocaleString("en-US", {
+              hour: "numeric",
+              minute: "numeric",
+            })}
+          </Typography>
+          <Typography variant="body1">{event.admin.name}</Typography>
+          <Typography variant="body1">{event.venue.address}</Typography>
+        </Grid>
+      </Grid>
+    </Box>
   ) : null;
 
   return (
     <div>
+      <Link to="/">
+        <ArrowBackIcon />
+      </Link>
       {eventInfo}
-      <Button onClick={handleClickOpen}>Book</Button>
+
       {showRegistration && (
         <Dialog open={showRegistration} onClose={handleClose}>
           <EventBookingPage eventId={eventId} isFree={isFree} />
