@@ -1,20 +1,20 @@
 //-----------Libraries-----------//
-import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-//-----------Components-----------//
+// //-----------Components-----------//
 import NavBar from "./components/navbar.js";
 
-//-----------Styling-----------//
+// //-----------Styling-----------//
 import "./index.css";
 
-//-----------Pages-----------//
+// //-----------Pages-----------//
 import RegisterPage from "./pages/registerPage.js";
 import SignInPage from "./pages/signInPage.js";
 import ResetPasswordPage from "./pages/resetPasswordPage.js";
 import ErrorPage from "./pages/errorPage.js";
 
-//-----------UserPages-----------//
+// //-----------UserPages-----------//
 import HomePage from "./pages/userPages/homePage.js";
 import EventDetailPage from "./pages/userPages/eventDetailPage.js";
 import FavPage from "./pages/userPages/favPage.js";
@@ -23,6 +23,7 @@ import MyProfilePage from "./pages/userPages/myProfilePage.js";
 import CheckoutForm from "./pages/userPages/checkOutPage.js";
 import FreeReturnPage from "./pages/userPages/freeReturnPage.js";
 import ReturnPage from "./pages/userPages/returnPage.js";
+import SearchPage from "./pages/userPages/searchPage.js";
 
 //-----------AdminPages-----------//
 import AdminHomePage from "./pages/adminPages/adminHomePage.js";

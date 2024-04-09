@@ -21,7 +21,7 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Box from '@mui/material/Box';
 
-git 
+
 export default function AdminCreateEvent() {
     const [ticketPrice, setTicketPrice] = useState('free');
     const [paidAmount, setPaidAmount] = useState('');

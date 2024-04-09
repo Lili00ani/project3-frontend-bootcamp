@@ -1,0 +1,8 @@
+.Search-bar {
+  display: flex;
+  width: 90vw;
+  justify-content: center;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  margin-top: 5vh;
+}
