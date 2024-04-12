@@ -21,6 +21,7 @@ export default function EventDetailPage() {
   const [eventId, setEventId] = useState();
   const [showRegistration, setShowRegistraton] = useState(null);
   const [isFree, setIsFree] = useState(null);
+  // const [accessToken, setAccessToken] = useState();
   const { user, loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
     useAuth0();
 
@@ -49,6 +50,8 @@ export default function EventDetailPage() {
       return loginWithRedirect();
     }
     setShowRegistraton(true);
+    // let token = await getAccessTokenSilently();
+    // setAccessToken(token);
   };
 
   const handleClose = () => {
@@ -82,7 +85,7 @@ export default function EventDetailPage() {
           </Button>
         </Box>
 
-        <APIProvider apiKey={process.env.GOOGLE_MAPS_API_KEY}>
+        <APIProvider apiKey="{process.env.GOOGLE_MAPS_API_KEY}">
           <Map
             mapId={"eventdetailmap"}
             style={{ width: "100vw", height: "30vh" }}

@@ -6,7 +6,9 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
 import { ThemeProvider } from "@mui/material/styles";
+import { Link, useNavigate } from "react-router-dom";
 
 //-----------Components-----------//
 import { BACKEND_URL } from "../../constant.js";
@@ -39,12 +41,56 @@ export default function MyBookingPage() {
   const [value, setValue] = useState(0);
   const [current, setCurrent] = useState([]);
   const [past, setPast] = useState([]);
+  const [userDb, setUserDb] = useState();
+  const {
+    isAuthenticated,
+    loginWithRedirect,
+    logout,
+    isLoading,
+    getAccessTokenSilently,
+    user,
+  } = useAuth0();
+  const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+  const navigate = useNavigate();
+  const [accessToken, setAccessToken] = useState();
+
+  const fetchData = async () => {
+    try {
+      if (user && user.email) {
+        const response = await axios.post(`${BACKEND_URL}/users/`, {
+          email: user.email,
+        });
+        const output = response.data;
+        setUserDb(output);
+      } else {
+        console.log("User email is undefined.");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const checkUser = async () => {
+    if (isAuthenticated) {
+      let token = await getAccessTokenSilently();
+      setAccessToken(token);
+      fetchData();
+    } else {
+      loginWithRedirect();
+    }
+  };
+
+  useEffect(() => {
+    checkUser();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${BACKEND_URL}/bookings/current`, {
-          params: { userId: "0a750c6d-758e-4113-806d-4061f49edd13" },
+          params: {
+            userId: userDb && userDb.length > 0 ? userDb[0].id : null,
+          },
         });
         console.log(response.data);
         const output = response.data;
@@ -54,13 +100,13 @@ export default function MyBookingPage() {
       }
     };
     fetchData();
-  }, []);
+  }, [userDb]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${BACKEND_URL}/bookings/past`, {
-          params: { userId: "0a750c6d-758e-4113-806d-4061f49edd13" },
+          params: { userId: userDb && userDb.length > 0 ? userDb[0].id : null },
         });
         const output = response.data;
         setPast(output.event);
@@ -69,7 +115,7 @@ export default function MyBookingPage() {
       }
     };
     fetchData();
-  }, []);
+  }, [userDb]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -86,30 +132,36 @@ export default function MyBookingPage() {
     : null;
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box
-        sx={{
-          borderColor: "divider",
-        }}
-      >
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="secondary"
-          textColor="inherit"
-          variant="fullWidth"
-          aria-label="basic tabs example"
-        >
-          <Tab label="Upcoming" />
-          <Tab label="Past Events" />
-        </Tabs>
-      </Box>
-      <CustomTabPanel value={value} index={0}>
-        {currentPreviews}
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        {pastPreviews}
-      </CustomTabPanel>
-    </ThemeProvider>
+    <>
+      {isLoading ? (
+        <p>loading...</p>
+      ) : (
+        <ThemeProvider theme={theme}>
+          <Box
+            sx={{
+              borderColor: "divider",
+            }}
+          >
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              indicatorColor="secondary"
+              textColor="inherit"
+              variant="fullWidth"
+              aria-label="basic tabs example"
+            >
+              <Tab label="Upcoming" />
+              <Tab label="Past Events" />
+            </Tabs>
+          </Box>
+          <CustomTabPanel value={value} index={0}>
+            {currentPreviews}
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={1}>
+            {pastPreviews}
+          </CustomTabPanel>
+        </ThemeProvider>
+      )}
+    </>
   );
 }

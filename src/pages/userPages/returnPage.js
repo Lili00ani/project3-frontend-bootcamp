@@ -25,10 +25,11 @@ export default function ReturnPage() {
     const sessionId = urlParams.get("session_id");
     const eventId = urlParams.get("eventId");
     const quantity = urlParams.get("quantity");
+    const user = urlParams.get("user");
 
     axios
       .get(
-        `http://localhost:3000/bookings/session-status?session_id=${sessionId}&eventId=${eventId}&quantity=${quantity}`
+        `http://localhost:3000/bookings/session-status?session_id=${sessionId}&eventId=${eventId}&quantity=${quantity}&user=${user}`
       )
       .then((response) => {
         setStatus(response.data.status);

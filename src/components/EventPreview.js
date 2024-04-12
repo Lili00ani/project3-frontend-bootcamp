@@ -43,7 +43,7 @@ const EventPreview = (props) => {
             image={`${process.env.PUBLIC_URL}/shoes.jpg`}
             title="shoes"
           >
-            <CardActions sx={{ position: "absolute", top: 0, right: 0 }}>
+            {/* <CardActions sx={{ position: "absolute", top: 0, right: 0 }}>
               <Button
                 size="small"
                 variant="contained"
@@ -51,7 +51,7 @@ const EventPreview = (props) => {
               >
                 <TurnedInTwoToneIcon />
               </Button>
-            </CardActions>
+            </CardActions> */}
           </CardMedia>
           <Link
             to={`/events/${props.data.id}`}

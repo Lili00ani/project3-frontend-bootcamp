@@ -15,6 +15,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../constant.js";
 
 // Refactor the component to start with an uppercase letter
 const MyProfilePage = () => {
@@ -29,18 +30,38 @@ const MyProfilePage = () => {
   const domain = process.env.REACT_APP_AUTH0_DOMAIN;
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState();
+  const [userDb, setUserDb] = useState();
+
+  const fetchData = async () => {
+    try {
+      if (user && user.email) {
+        const response = await axios.post(`${BACKEND_URL}/users/`, {
+          email: user.email,
+        });
+        const output = response.data;
+        setUserDb(output);
+      } else {
+        console.log("User email is undefined.");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   const checkUser = async () => {
     if (isAuthenticated) {
       let token = await getAccessTokenSilently();
       setAccessToken(token);
-      console.log(token);
+      fetchData();
     } else {
       loginWithRedirect();
     }
   };
+
   useEffect(() => {
     checkUser();
   }, []);
+
   return (
     <div>
       {isLoading ? (
@@ -74,47 +95,47 @@ const MyProfilePage = () => {
           </ListItemIcon>
           <ListItemText primary="My Profile" />
         </ListItem>{" "}
-        <ListItem button>
+        {/* <ListItem button>
           <ListItemIcon>
             <MessageIcon />
           </ListItemIcon>
-          <ListItemText primary="Message" />
-          {/* {user.unreadMessages > 0 && ( */}
-          <Typography variant="body2" color="primary">
-            {/* {user.unreadMessages} */}
-          </Typography>
-          {/* )} */}
-        </ListItem>
-        <ListItem button>
+          <ListItemText primary="Message" /> */}
+        {/* {user.unreadMessages > 0 && ( */}
+        {/* <Typography variant="body2" color="primary"> */}
+        {/* {user.unreadMessages} */}
+        {/* </Typography> */}
+        {/* )} */}
+        {/* </ListItem> */}
+        {/* <ListItem button>
           <ListItemIcon>
             <CalendarTodayIcon />
           </ListItemIcon>
           <ListItemText primary="Calendar" />
-        </ListItem>
-        <ListItem button>
+        </ListItem> */}
+        {/* <ListItem button>
           <ListItemIcon>
             <BookmarkIcon />
           </ListItemIcon>
           <ListItemText primary="Bookmark" />
-        </ListItem>
+        </ListItem> */}
         <ListItem button>
           <ListItemIcon>
             <ContactSupportIcon />
           </ListItemIcon>
           <ListItemText primary="Contact Us" />
         </ListItem>
-        <ListItem button>
+        {/* <ListItem button>
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>
           <ListItemText primary="Settings" />
-        </ListItem>
-        <ListItem button>
+        </ListItem> */}
+        {/* <ListItem button>
           <ListItemIcon>
             <HelpIcon />
           </ListItemIcon>
           <ListItemText primary="Help & FAQs" />
-        </ListItem>
+        </ListItem> */}
         <ListItem
           button
           component={Link}
@@ -126,9 +147,9 @@ const MyProfilePage = () => {
           </ListItemIcon>
           <ListItemText primary="Sign Out" />
         </ListItem>
-        <ListItem button>
+        {/* <ListItem button>
           <ListItemText primary="Language" />
-        </ListItem>
+        </ListItem> */}
       </List>
     </div>
   );

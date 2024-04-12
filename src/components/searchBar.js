@@ -133,7 +133,7 @@ export default function SearchBar() {
           <FormGroup>{categoriesList}</FormGroup>
         </ListItem>
         <Divider />
-        <ListItem>
+        {/* <ListItem>
           <FormGroup>
             <FormControlLabel
               control={<Checkbox />}
@@ -146,7 +146,7 @@ export default function SearchBar() {
               onClick={(e) => e.stopPropagation()}
             />
           </FormGroup>
-        </ListItem>
+        </ListItem> */}
       </List>
       <Button variant="contained" onClick={handleSubmit}>
         Submit
