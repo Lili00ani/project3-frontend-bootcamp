@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
@@ -12,59 +12,61 @@ import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import SettingsIcon from "@mui/icons-material/Settings";
 import HelpIcon from "@mui/icons-material/Help";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import toast from "react-hot-toast";
-import { useLogoutMutation } from "../../slices/usersApiSlices";
-import { logoutt } from "../../slices/AuthSlices";
 
 // Refactor the component to start with an uppercase letter
 const MyProfilePage = () => {
-  const user = {
-    name: "Glory Kendi",
-    profileImg: "/logo192.png",
-    unreadMessages: 3, // Number of unread messages
-  };
-  const { userInfo } = useSelector((state) => state.auth);
-  const [logout] = useLogoutMutation(); //  destructuring
-  const dispatch = useDispatch();
+  const {
+    isAuthenticated,
+    loginWithRedirect,
+    logout,
+    isLoading,
+    getAccessTokenSilently,
+    user,
+  } = useAuth0();
+  const domain = process.env.REACT_APP_AUTH0_DOMAIN;
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!userInfo) {
-      navigate("/signin");
-    }
-  }, [navigate, userInfo]);
-  const handleLogout = async (e) => {
-    try {
-      const res = await logout();
-      dispatch(logoutt());
-      // navigate("/signin");
-      // window.location.href = "/signin";
-      toast.success(res?.data?.message);
-    } catch (error) {
-      toast.error(error.message);
+  const [accessToken, setAccessToken] = useState();
+  const checkUser = async () => {
+    if (isAuthenticated) {
+      let token = await getAccessTokenSilently();
+      setAccessToken(token);
+      console.log(token);
+    } else {
+      loginWithRedirect();
     }
   };
+  useEffect(() => {
+    checkUser();
+  }, []);
   return (
     <div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          marginBottom: 20,
-        }}
-      >
+      {isLoading ? (
+        <p>loading...</p>
+      ) : (
         <div
           style={{
-            padding: "1rem 3rem",
+            display: "flex",
+            flexDirection: "column",
+            marginBottom: 20,
           }}
         >
-          <Avatar src={user.profileImg} alt="Profile Image" />
+          <div
+            style={{
+              padding: "1rem 3rem",
+            }}
+          >
+            <Avatar src={user && user?.picture} alt="Profile Image" />
+          </div>
+          <Typography variant="body1" style={{ marginLeft: 10 }}>
+            {user && user?.nickname}
+          </Typography>
+          {/* {user && !user?.email_verified && <p>Please verify your email</p>} */}
         </div>
-        <Typography variant="body1" style={{ marginLeft: 10 }}>
-          {userInfo?.name}
-        </Typography>
-      </div>
+      )}
+
       <List>
         <ListItem button>
           <ListItemIcon>
@@ -77,11 +79,11 @@ const MyProfilePage = () => {
             <MessageIcon />
           </ListItemIcon>
           <ListItemText primary="Message" />
-          {user.unreadMessages > 0 && (
-            <Typography variant="body2" color="primary">
-              {user.unreadMessages}
-            </Typography>
-          )}
+          {/* {user.unreadMessages > 0 && ( */}
+          <Typography variant="body2" color="primary">
+            {/* {user.unreadMessages} */}
+          </Typography>
+          {/* )} */}
         </ListItem>
         <ListItem button>
           <ListItemIcon>
@@ -115,9 +117,9 @@ const MyProfilePage = () => {
         </ListItem>
         <ListItem
           button
-          onClick={handleLogout}
           component={Link}
           //  to="/signin"
+          onClick={() => logout()}
         >
           <ListItemIcon>
             <ExitToAppIcon />

@@ -1,8 +1,6 @@
 //-----------Libraries-----------//
-import { useState, useEffect } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../theme";
-import Typography from "@mui/material/Typography";
 
 //-----------Components-----------//
 import EventPreviewList from "../../components/EventPreviewList";

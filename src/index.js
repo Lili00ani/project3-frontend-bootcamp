@@ -31,9 +31,7 @@ import SearchPage from "./pages/userPages/searchPage.js";
 //-----------AdminPages-----------//
 import AdminHomePage from "./pages/adminPages/adminHomePage.js";
 import AdminProfilePage from "./pages/adminPages/adminProfilePage.js";
-import AdminEventPage from "./pages/adminPages/adminEventPage.js";
-import AdminEventAttendancePage from "./pages/adminPages/adminEventAttendancePage.js";
-import AdminAnalyticsPage from "./pages/adminPages/adminAnalyticsPage.js";
+import AdminCreateEvent from "./pages/adminPages/AdminCreateEvent.jsx";
 import { Toaster } from "react-hot-toast";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -41,11 +39,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 const AdminRoutes = () => (
   <Routes>
     <Route path="/" element={<AdminHomePage />} />
-    <Route path="attendance" element={<AdminEventAttendancePage />} />
-    <Route path="edit" element={<AdminEventPage />} />
-    <Route path="add" element={<AdminEventPage />} />
+    <Route path="edit" element={<AdminCreateEvent />} />
+    <Route path="add" element={<AdminCreateEvent />} />
     <Route path="profile" element={<AdminProfilePage />} />
-    <Route path="analytics" element={<AdminAnalyticsPage />} />
   </Routes>
 );
 
@@ -53,8 +49,8 @@ const AdminRoutes = () => (
 root.render(
   <Provider store={store}>
     <Auth0Provider
-      domain={process.env.REACT_APP_DOMAIN}
-      clientId={process.env.REACT_APP_CLIENT_ID}
+      domain={process.env.REACT_APP_AUTH0_DOMAIN}
+      clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
       authorizationParams={{
         redirect_uri: window.location.origin,
       }}
