@@ -18,33 +18,44 @@ const stripePromise = loadStripe(
 export default function ReturnPage() {
   const [status, setStatus] = useState(null);
   const [customerEmail, setCustomerEmail] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const sessionId = urlParams.get("session_id");
-    const eventId = urlParams.get("eventId");
-    const quantity = urlParams.get("quantity");
-    const user = urlParams.get("user");
+    const fetchData = async () => {
+      try {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const sessionId = urlParams.get("session_id");
+        const eventId = urlParams.get("eventId");
+        const quantity = urlParams.get("quantity");
+        const user = urlParams.get("user");
 
-    axios
-      .get(
-        `http://localhost:3000/bookings/session-status?session_id=${sessionId}&eventId=${eventId}&quantity=${quantity}&user=${user}`
-      )
-      .then((response) => {
+        const response = await axios.get(
+          `http://localhost:3000/bookings/session-status?session_id=${sessionId}&eventId=${eventId}&quantity=${quantity}&user=${user}`
+        );
+
         setStatus(response.data.status);
+        console.log("Setstatus:", status);
         setCustomerEmail(response.data.customer_email);
-      })
-      .catch((error) => {
+        setLoading(false);
+      } catch (error) {
         console.error("Error fetching client secret:", error);
-      });
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  if (status === "open") {
-    return <Navigate to="/checkout" />;
-  }
-  console.log(status);
+  useEffect(() => {
+    console.log("Status updated:", status);
+  }, [status]);
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  // Display confirmation message or redirect based on status
   if (status === "complete") {
     return (
       <section id="success">
@@ -52,13 +63,15 @@ export default function ReturnPage() {
           We appreciate your business! A confirmation email will be sent to{" "}
           {customerEmail}. If you have any questions, please email{" "}
           <a href="mailto:orders@example.com">orders@example.com</a>.
-          <Button component={Link} to="/" variant="contained" color="primary">
-            Return to Homepage
-          </Button>
         </p>
+        <Button component={Link} to="/" variant="contained" color="primary">
+          Return to Homepage
+        </Button>
       </section>
     );
+  } else if (status === "open") {
+    return <Navigate to="/checkout" />;
+  } else {
+    return <p>Status: {status}</p>; // Handle other statuses if needed
   }
-
-  // return null;
 }
