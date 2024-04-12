@@ -1,7 +1,6 @@
 //-----------Libraries-----------//
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { Button, Dialog, Box, Typography, Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -11,6 +10,7 @@ import {
   AdvancedMarker,
   Pin,
 } from "@vis.gl/react-google-maps";
+import { useAuth0 } from "@auth0/auth0-react";
 
 //-----------Components-----------//
 import EventBookingPage from "./eventBookingPage";
@@ -24,18 +24,25 @@ export default function EventDetailPage() {
   // const [accessToken, setAccessToken] = useState();
   const { user, loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
     useAuth0();
-
+  const [accessToken, setAccessToken] = useState();
+  const fetchData = async () => {
+    if (isAuthenticated) {
+      let token = await getAccessTokenSilently();
+      setAccessToken(token);
+    }
+    try {
+      const response = await axios.get(`${BACKEND_URL}/events/${eventId}`, {
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setEvent(response.data);
+      setIsFree(response.data.price === 0);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${BACKEND_URL}/events/${eventId}`);
-        setEvent(response.data);
-        setIsFree(response.data.price === 0);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     fetchData();
   }, [eventId]);
 
