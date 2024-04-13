@@ -9,6 +9,10 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import { CardMedia } from "@mui/material";
 
 //-----------Components-----------//
 import { BACKEND_URL } from "../../constant.js";
@@ -131,14 +135,74 @@ export default function MyBookingPage() {
         <BookingPreview data={booking} key={booking.id} />
       ))
     ) : (
-      <h3>You don't have any upcoming events.</h3>
+      <>
+        <Card
+          sx={{
+            height: "70vh",
+            paddingTop: "10vh",
+          }}
+        >
+          <CardMedia
+            sx={{
+              height: "40vh",
+              borderRadius: 3,
+              objectFit: "contain",
+              objectPosition: "center",
+            }}
+            image={`${process.env.PUBLIC_URL}/blank/blank.png`}
+            title="emptystate"
+          ></CardMedia>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              paddingTop: "8px",
+              display: "flex",
+
+              justifyContent: "center",
+            }}
+          >
+            You don't have any upcoming events.
+          </Typography>
+        </Card>
+      </>
     );
 
   const pastPreviews =
     past.length > 0 ? (
       past.map((booking) => <BookingPreview data={booking} key={booking.id} />)
     ) : (
-      <h3>You don't have any past events.</h3>
+      <>
+        <Card
+          sx={{
+            height: "70vh",
+            paddingTop: "10vh",
+          }}
+        >
+          <CardMedia
+            sx={{
+              height: "40vh",
+              borderRadius: 3,
+              objectFit: "contain",
+              objectPosition: "center",
+            }}
+            image={`${process.env.PUBLIC_URL}/blank/blank.png`}
+            title="emptystate"
+          ></CardMedia>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              paddingTop: "8px",
+              display: "flex",
+
+              justifyContent: "center",
+            }}
+          >
+            You don't have any past events.
+          </Typography>
+        </Card>
+      </>
     );
 
   return (
