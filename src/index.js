@@ -44,26 +44,77 @@ const AdminRoutes = () => (
   </Routes>
 );
 
+// const NonAdminRoutes = () => (
+//   <>
+//     <NavBar />
+//     <Routes>
+//       <Route path="/" element={<HomePage />} />
+//       <Route path="register" element={<RegisterPage />} />
+//       <Route path="reset-password" element={<ResetPasswordPage />} />
+//       <Route path="signin" element={<SignInPage />} />
+//       <Route path="fav" element={<FavPage />} />
+//       <Route path="mybooking" element={<MyBookingPage />} />
+//       <Route path="checkout" element={<CheckoutForm />} />
+//       <Route path="free-return" element={<FreeReturnPage />} />
+//       <Route path="/return" element={<ReturnPage />} />
+//       <Route path="profile" element={<MyProfilePage />} />
+//       <Route path="events/:eventId" element={<EventDetailPage />} />
+//       <Route path="search/" element={<SearchPage />} />
+//       <Route path="search/:keyword" element={<SearchPage />} />
+//       <Route path="*" element={<ErrorPage />} />
+//     </Routes>
+//   </>
+// );
+
 const NonAdminRoutes = () => (
-  <>
-    <NavBar />
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="register" element={<RegisterPage />} />
-      <Route path="reset-password" element={<ResetPasswordPage />} />
-      <Route path="signin" element={<SignInPage />} />
-      <Route path="fav" element={<FavPage />} />
-      <Route path="mybooking" element={<MyBookingPage />} />
-      <Route path="checkout" element={<CheckoutForm />} />
-      <Route path="free-return" element={<FreeReturnPage />} />
-      <Route path="/return" element={<ReturnPage />} />
-      <Route path="profile" element={<MyProfilePage />} />
-      <Route path="events/:eventId" element={<EventDetailPage />} />
-      <Route path="search/" element={<SearchPage />} />
-      <Route path="search/:keyword" element={<SearchPage />} />
-      <Route path="*" element={<ErrorPage />} />
-    </Routes>
-  </>
+  <Routes>
+    <Route
+      path="/"
+      element={
+        <>
+          <NavBar /> <HomePage />
+        </>
+      }
+    />
+    <Route
+      path="mybooking"
+      element={
+        <>
+          <NavBar /> <MyBookingPage />
+        </>
+      }
+    />
+    <Route
+      path="profile"
+      element={
+        <>
+          <NavBar /> <MyProfilePage />
+        </>
+      }
+    />
+    <Route
+      path="search"
+      element={
+        <>
+          <NavBar /> <SearchPage />
+        </>
+      }
+    />
+    <Route
+      path="search/:keyword"
+      element={
+        <>
+          <NavBar /> <SearchPage />
+        </>
+      }
+    />
+
+    <Route path="checkout" element={<CheckoutForm />} />
+    <Route path="free-return" element={<FreeReturnPage />} />
+    <Route path="/return" element={<ReturnPage />} />
+    <Route path="events/:eventId" element={<EventDetailPage />} />
+    <Route path="*" element={<ErrorPage />} />
+  </Routes>
 );
 
 //testing with simple basic auth0

@@ -2,7 +2,10 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 import { Button, Dialog, Box, Typography, Grid } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   APIProvider,
@@ -15,6 +18,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 //-----------Components-----------//
 import EventBookingPage from "./eventBookingPage";
 import { BACKEND_URL } from "../../constant.js";
+import theme from "../../theme";
 
 export default function EventDetailPage() {
   const [event, setEvent] = useState();
@@ -80,17 +84,10 @@ export default function EventDetailPage() {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant="body1" paragraph>
-            Price: ${event.price}
+          <Typography variant="h6" gutterBottom>
+            ${event.price}
           </Typography>
         </Grid>
-        <Box
-          sx={{ display: "flex", justifyContent: "center", marginLeft: "15px" }}
-        >
-          <Button variant="contained" onClick={handleClickOpen}>
-            Book
-          </Button>
-        </Box>
 
         <APIProvider apiKey="{process.env.GOOGLE_MAPS_API_KEY}">
           <Map
@@ -145,17 +142,32 @@ export default function EventDetailPage() {
   ) : null;
 
   return (
-    <div>
-      <Link to="/">
-        <ArrowBackIcon />
-      </Link>
-      {eventInfo}
+    <ThemeProvider theme={theme}>
+      <AppBar position="fixed" color="success" sx={{ top: "auto", bottom: 0 }}>
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Button variant="contained" onClick={handleClickOpen}>
+            Book
+          </Button>
+        </Toolbar>
+      </AppBar>
 
-      {showRegistration && (
-        <Dialog open={showRegistration} onClose={handleClose}>
-          <EventBookingPage eventId={eventId} isFree={isFree} />
-        </Dialog>
-      )}
-    </div>
+      <div>
+        <Link to="/">
+          <ArrowBackIcon />
+        </Link>
+        {eventInfo}
+
+        {showRegistration && (
+          <Dialog open={showRegistration} onClose={handleClose}>
+            <EventBookingPage eventId={eventId} isFree={isFree} />
+          </Dialog>
+        )}
+      </div>
+    </ThemeProvider>
   );
 }
