@@ -114,6 +114,8 @@ root.render(
     authorizationParams={{
       redirect_uri: newUrl,
     }}
+    useRefreshTokens
+    cacheLocation="localstorage"
   >
     <BrowserRouter>
       <Routes>
