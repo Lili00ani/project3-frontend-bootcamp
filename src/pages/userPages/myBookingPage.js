@@ -155,10 +155,32 @@ export default function MyBookingPage() {
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>
-            {currentPreviews}
+            <div
+              style={{
+                position: "fixed",
+                top: "10vh",
+                height: "80vh",
+                width: "100%",
+                overflowY: "scroll",
+                marginBottom: "20vw",
+              }}
+            >
+              {currentPreviews}
+            </div>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            {pastPreviews}
+            <div
+              style={{
+                position: "fixed",
+                top: "10vh",
+                height: "80vh",
+                width: "100%",
+                overflowY: "scroll",
+                marginBottom: "20vw",
+              }}
+            >
+              {pastPreviews}
+            </div>
           </CustomTabPanel>
         </ThemeProvider>
       )}

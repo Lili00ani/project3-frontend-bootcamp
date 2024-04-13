@@ -16,6 +16,7 @@ export default function FreeReturnPage() {
   const [status, setStatus] = useState(null);
   const location = useLocation();
   const eventId = location.state.eventId;
+  const user_id = location.state.user_id;
   const quantity_bought = location.state.quantity;
 
   console.log(eventId);
@@ -26,6 +27,7 @@ export default function FreeReturnPage() {
       .post(`${BACKEND_URL}/bookings/${eventId}`, {
         eventId: eventId,
         quantity_bought: quantity_bought,
+        user_id: user_id,
       })
       .then((response) => {
         setStatus("complete");
