@@ -89,7 +89,7 @@ export default function EventDetailPage() {
           </Typography>
         </Grid>
 
-        <APIProvider apiKey="{process.env.GOOGLE_MAPS_API_KEY}">
+        <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
           <Map
             mapId={"eventdetailmap"}
             style={{ width: "100vw", height: "30vh" }}
