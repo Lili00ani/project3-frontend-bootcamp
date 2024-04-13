@@ -64,81 +64,58 @@ const MyProfilePage = () => {
     checkUser();
   }, []);
 
-  if (!isAuthenticated) {
-    return (
-      <ThemeProvider theme={theme}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            marginBottom: 20,
-          }}
-        ></div>
+  const handleContactUsClick = () => {
+    navigate("/contactus");
+  };
+
+  const handleLoginOrLogout = () => {
+    if (isAuthenticated) {
+      logout();
+    } else {
+      loginWithRedirect();
+    }
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
+      <div>
+        {isLoading ? (
+          <p>loading...</p>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              marginBottom: 20,
+            }}
+          >
+            {isAuthenticated && (
+              <div style={{ padding: "1rem 3rem" }}>
+                <Avatar src={user?.picture} alt="Profile Image" />
+              </div>
+            )}
+            <Typography variant="body1" style={{ marginLeft: 10 }}>
+              {user?.nickname}
+            </Typography>
+          </div>
+        )}
 
         <List>
-          <ListItem component={Link} to="/contactus">
+          <ListItem button onClick={handleContactUsClick}>
             <ListItemIcon>
               <ContactSupportIcon />
             </ListItemIcon>
             <ListItemText primary="Contact Us" />
           </ListItem>
-          <ListItem component={Link} onClick={() => loginWithRedirect()()}>
+          <ListItem button onClick={handleLoginOrLogout}>
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>
-            <ListItemText primary="Sign In" />
+            <ListItemText primary={isAuthenticated ? "Sign Out" : "Sign In"} />
           </ListItem>
         </List>
-      </ThemeProvider>
-    );
-  }
-
-  return (
-    <div>
-      {isLoading ? (
-        <p>loading...</p>
-      ) : (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            marginBottom: 20,
-          }}
-        >
-          <div
-            style={{
-              padding: "1rem 3rem",
-            }}
-          >
-            <Avatar src={user && user?.picture} alt="Profile Image" />
-          </div>
-          <Typography variant="body1" style={{ marginLeft: 10 }}>
-            {user && user?.nickname}
-          </Typography>
-        </div>
-      )}
-
-      <List>
-        <ListItem>
-          <ListItemIcon>
-            <CalendarTodayIcon />
-          </ListItemIcon>
-          <ListItemText primary="My Profile" />
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <ContactSupportIcon />
-          </ListItemIcon>
-          <ListItemText primary="Contact Us" />
-        </ListItem>
-        <ListItem component={Link} onClick={() => logout()}>
-          <ListItemIcon>
-            <ExitToAppIcon />
-          </ListItemIcon>
-          <ListItemText primary="Sign Out" />
-        </ListItem>
-      </List>
-    </div>
+      </div>
+    </ThemeProvider>
   );
 };
 

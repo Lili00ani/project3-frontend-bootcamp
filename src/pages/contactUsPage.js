@@ -1,6 +1,5 @@
 //-----------Libraries-----------//
-import { Box, Button, Typography, ThemeProvider } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, Typography, ThemeProvider } from "@mui/material";
 
 //-----------Components-----------//
 import theme from "../theme";
