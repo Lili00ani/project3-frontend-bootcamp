@@ -11,9 +11,6 @@ import NavBar from "./components/navbar.js";
 import "./index.css";
 
 //-----------Pages-----------//
-import RegisterPage from "./pages/registerPage.js";
-import SignInPage from "./pages/signInPage.js";
-import ResetPasswordPage from "./pages/resetPasswordPage.js";
 import ErrorPage from "./pages/errorPage.js";
 import IntroPage from "./pages/introPage.js";
 import ContactUsPage from "./pages/contactUsPage.js";
@@ -106,7 +103,6 @@ const NonAdminRoutes = () => (
 
 const newUrl = window.location.origin + "/home";
 
-//testing with simple basic auth0
 root.render(
   <Auth0Provider
     domain={process.env.REACT_APP_AUTH0_DOMAIN}
