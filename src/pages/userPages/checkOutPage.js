@@ -56,7 +56,7 @@ const CheckoutForm = () => {
       .then((response) => response.data.clientSecret)
       .catch((error) => {
         console.error("Error fetching client secret:", error);
-        throw error; // rethrow the error to handle it elsewhere if needed
+        throw error;
       });
   }, [accessToken, eventId, quantity_bought, user_id]);
 

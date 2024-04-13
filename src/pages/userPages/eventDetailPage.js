@@ -28,7 +28,6 @@ export default function EventDetailPage() {
   const [eventId, setEventId] = useState();
   const [showRegistration, setShowRegistraton] = useState(null);
   const [isFree, setIsFree] = useState(null);
-  // const [accessToken, setAccessToken] = useState();
   const { user, loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
     useAuth0();
   const [accessToken, setAccessToken] = useState();
@@ -68,8 +67,6 @@ export default function EventDetailPage() {
       });
     }
     setShowRegistraton(true);
-    // let token = await getAccessTokenSilently();
-    // setAccessToken(token);
   };
 
   const handleClose = () => {
@@ -119,11 +116,6 @@ export default function EventDetailPage() {
               {event.description}
             </Typography>
           </Grid>
-          {/* <Grid item xs={12}>
-            <Typography variant="h6" gutterBottom>
-              ${event.price}
-            </Typography>
-          </Grid> */}
           <Grid item xs={12}>
             <Typography variant="body2" gutterBottom>
               <LanguageIcon

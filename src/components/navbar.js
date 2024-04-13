@@ -3,7 +3,6 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { Link } from "react-router-dom";
 import ExploreIcon from "@mui/icons-material/Explore";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
 import EventIcon from "@mui/icons-material/Event";
 import PersonIcon from "@mui/icons-material/Person";
 import { ThemeProvider, styled } from "@mui/material/styles";

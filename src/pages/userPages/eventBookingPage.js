@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Box, Button, Typography, ThemeProvider } from "@mui/material";
-import { styles } from "@mui/system";
 import { useAuth0 } from "@auth0/auth0-react";
 
 //-----------Components-----------//

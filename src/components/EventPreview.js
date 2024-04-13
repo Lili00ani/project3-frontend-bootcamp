@@ -1,14 +1,9 @@
 //-----------Libraries-----------//
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
 import { CardMedia } from "@mui/material";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import TurnedInTwoToneIcon from "@mui/icons-material/TurnedInTwoTone";
-import PlaceIcon from "@mui/icons-material/Place";
 
 const EventPreview = (props) => {
   const formatDate = (string) => {
@@ -42,17 +37,7 @@ const EventPreview = (props) => {
             sx={{ height: 120, position: "relative", borderRadius: 3 }}
             image={`${process.env.PUBLIC_URL}/shoes.jpg`}
             title="shoes"
-          >
-            {/* <CardActions sx={{ position: "absolute", top: 0, right: 0 }}>
-              <Button
-                size="small"
-                variant="contained"
-                sx={{ padding: 0.2, minWidth: "25px" }}
-              >
-                <TurnedInTwoToneIcon />
-              </Button>
-            </CardActions> */}
-          </CardMedia>
+          ></CardMedia>
           <Link
             to={`/events/${props.data.id}`}
             key={props.data.id}
@@ -92,7 +77,6 @@ const EventPreview = (props) => {
               color="text.secondary"
               sx={{ padding: "0px", margin: "0px" }}
             >
-              {/* <PlaceIcon style={{ fontSize: "medium" }} /> */}
               {props.data.admin.name}
             </Typography>
           </Link>

@@ -12,8 +12,6 @@ import {
   Box,
   Button,
   Card,
-  CardContent,
-  CardActions,
   CardMedia,
 } from "@mui/material";
 
@@ -70,8 +68,6 @@ export default function MyBookingPage() {
         });
         const output = response.data;
         setUserDb(output);
-      } else {
-        console.log("User email is undefined.");
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -137,10 +133,8 @@ export default function MyBookingPage() {
           const response = await axios.get(`${BACKEND_URL}/bookings/past`, {
             params: { userId: userDb[0].id },
           });
-          console.log(response.data);
           const output = response.data;
           setPast(output);
-          console.log(past);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
