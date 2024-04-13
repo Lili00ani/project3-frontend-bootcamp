@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 //-----------Components-----------//
 import theme from "../theme";
 
-export default function ErrorPage() {
+export default function IntroPage() {
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -19,11 +19,17 @@ export default function ErrorPage() {
           backgroundColor: "#E5F3E8",
         }}
       >
+        <img
+          src={`${process.env.PUBLIC_URL}/cover.png`}
+          alt="Coverpage"
+          style={{ marginBottom: 20, maxWidth: "100%" }}
+        />
+
         <Typography
           variant="h4"
           style={{ marginBottom: 20, fontWeight: "bold" }}
         >
-          Error
+          Find Your Community Events Anywhere
         </Typography>
         <Button
           component={Link}
@@ -32,7 +38,7 @@ export default function ErrorPage() {
           fullWidth
           sx={{ color: "primary", fontSize: "1 rem" }}
         >
-          Go Back to Homepage
+          Explore events
         </Button>
       </Box>
     </ThemeProvider>
