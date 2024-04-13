@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Search as SearchIcon,
   Input,
   Box,
   Drawer,
@@ -17,6 +16,7 @@ import {
 import TuneIcon from "@mui/icons-material/Tune";
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
+import SearchIcon from "@mui/icons-material/Search";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import axios from "axios";
 
