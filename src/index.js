@@ -104,13 +104,15 @@ const NonAdminRoutes = () => (
   </Routes>
 );
 
+const newUrl = window.location.origin + "/home";
+
 //testing with simple basic auth0
 root.render(
   <Auth0Provider
     domain={process.env.REACT_APP_AUTH0_DOMAIN}
     clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
     authorizationParams={{
-      redirect_uri: window.location.origin,
+      redirect_uri: newUrl,
     }}
   >
     <BrowserRouter>

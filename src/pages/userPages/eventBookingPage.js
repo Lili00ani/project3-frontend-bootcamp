@@ -104,7 +104,7 @@ export default function EventBookingPage({ eventId, isFree }) {
       <Box
         sx={{
           margin: "30px",
-          width: "70vw",
+          width: "68vw",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

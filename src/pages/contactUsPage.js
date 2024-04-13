@@ -19,12 +19,6 @@ export default function ContactUsPage() {
           backgroundColor: "#E5F3E8",
         }}
       >
-        <img
-          src={`${process.env.PUBLIC_URL}/cover.png`}
-          alt="Coverpage"
-          style={{ marginBottom: 20, maxWidth: "100%" }}
-        />
-
         <Typography
           variant="h4"
           style={{ marginBottom: 20, fontWeight: "bold" }}

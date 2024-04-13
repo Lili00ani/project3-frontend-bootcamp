@@ -40,10 +40,8 @@ export default function FreeReturnPage() {
   return (
     <section id="success">
       <p>
-        We appreciate your business! A confirmation email will be sent to you.
-        If you have any questions, please email{" "}
-        <a href="mailto:orders@example.com">orders@example.com</a>.
-        <Button component={Link} to="/" variant="contained" color="primary">
+        Hooray! You're in. Your event reservation is complete
+        <Button component={Link} to="/home" variant="contained" color="primary">
           Return to Homepage
         </Button>
       </p>

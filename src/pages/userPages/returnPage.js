@@ -64,7 +64,7 @@ export default function ReturnPage() {
           {customerEmail}. If you have any questions, please email{" "}
           <a href="mailto:orders@example.com">orders@example.com</a>.
         </p>
-        <Button component={Link} to="/" variant="contained" color="primary">
+        <Button component={Link} to="/home" variant="contained" color="primary">
           Return to Homepage
         </Button>
       </section>

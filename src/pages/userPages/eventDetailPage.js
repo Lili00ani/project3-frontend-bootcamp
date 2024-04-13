@@ -61,7 +61,11 @@ export default function EventDetailPage() {
 
   const handleClickOpen = async () => {
     if (!isAuthenticated) {
-      return loginWithRedirect();
+      return loginWithRedirect({
+        appState: {
+          returnTo: window.location.pathname,
+        },
+      });
     }
     setShowRegistraton(true);
     // let token = await getAccessTokenSilently();
@@ -210,7 +214,11 @@ export default function EventDetailPage() {
               justifyContent: "space-between",
             }}
           >
-            {event && <Typography variant="body1">${event.price}</Typography>}
+            {event && (
+              <Typography variant="body1" sx={{ marginTop: 0 }}>
+                {event.price === 0 ? "Free" : `$${event.price}`}
+              </Typography>
+            )}
             <Button
               sx={{ width: "60vw" }}
               variant="contained"
