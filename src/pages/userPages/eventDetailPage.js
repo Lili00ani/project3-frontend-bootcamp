@@ -6,7 +6,6 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { Button, Dialog, Box, Typography, Grid } from "@mui/material";
 import { ThemeProvider } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   APIProvider,
   Map,
@@ -14,6 +13,10 @@ import {
   Pin,
 } from "@vis.gl/react-google-maps";
 import { useAuth0 } from "@auth0/auth0-react";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import PersonIcon from "@mui/icons-material/Person";
+import LanguageIcon from "@mui/icons-material/Language";
 
 //-----------Components-----------//
 import EventBookingPage from "./eventBookingPage";
@@ -71,73 +74,123 @@ export default function EventDetailPage() {
 
   //add image
   const eventInfo = event ? (
-    <Box sx={{ margin: "30px" }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography variant="h5" gutterBottom>
-            {event.title}
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography variant="body1" paragraph>
-            {event.description}
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography variant="h6" gutterBottom>
-            ${event.price}
-          </Typography>
-        </Grid>
+    <Box>
+      <img
+        src={`${process.env.PUBLIC_URL}/shoes.jpg`}
+        alt="shoes"
+        style={{
+          width: "100%",
+          height: "50vw",
+          objectFit: "cover",
+          position: "relative",
+          borderRadius: 3,
+        }}
+      />
+      <Box sx={{ margin: "5vw" }}>
+        <Grid>
+          <Grid item xs={12}>
+            <Typography variant="body2">
+              {new Date(event.start).toLocaleString("en-US", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                hour: "numeric",
+                minute: "numeric",
+              })}
+              -
+              {new Date(event.end).toLocaleString("en-US", {
+                hour: "numeric",
+                minute: "numeric",
+              })}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h4" paragraph style={{ fontWeight: "bold" }}>
+              {event.title}
+            </Typography>
+          </Grid>
 
-        <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-          <Map
-            mapId={"eventdetailmap"}
-            style={{ width: "100vw", height: "30vh" }}
-            defaultCenter={{
-              lat: parseFloat(event.venue.lat),
-              lng: parseFloat(event.venue.lng),
-            }}
-            defaultZoom={13}
-            gestureHandling={"greedy"}
-            disableDefaultUI={true}
-          >
-            <AdvancedMarker
-              position={{
-                lat: parseFloat(event.venue.lat),
-                lng: parseFloat(event.venue.lng),
-              }}
-              title={"AdvancedMarker with customized pin."}
-            >
-              <Pin
-                background={"#22ccff"}
-                borderColor={"#1e89a1"}
-                glyphColor={"#0f677a"}
-              ></Pin>
-            </AdvancedMarker>
-          </Map>
-        </APIProvider>
-        <Grid item xs={12}>
-          <Typography variant="body1">
-            Language: {event.language.name}
-          </Typography>
-          <Typography variant="body1">
-            {new Date(event.start).toLocaleString("en-US", {
-              weekday: "long",
-              day: "numeric",
-              month: "long",
-              hour: "numeric",
-              minute: "numeric",
-            })}
-            -
-            {new Date(event.end).toLocaleString("en-US", {
-              hour: "numeric",
-              minute: "numeric",
-            })}
-          </Typography>
-          <Typography variant="body1">{event.admin.name}</Typography>
-          <Typography variant="body1">{event.venue.address}</Typography>
+          <Grid item xs={12}>
+            <Typography variant="body2" paragraph>
+              {event.description}
+            </Typography>
+          </Grid>
+          {/* <Grid item xs={12}>
+            <Typography variant="h6" gutterBottom>
+              ${event.price}
+            </Typography>
+          </Grid> */}
+          <Grid item xs={12}>
+            <Typography variant="body2" gutterBottom>
+              <LanguageIcon
+                sx={{
+                  fontSize: "medium",
+                  verticalAlign: "middle",
+                  marginBottom: "4px",
+                  marginRight: "4px",
+                }}
+              />
+              Language: {event.language.name}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body2" gutterBottom>
+              <PersonIcon
+                sx={{
+                  fontSize: "medium",
+                  verticalAlign: "middle",
+                  marginBottom: "4px",
+                  marginRight: "4px",
+                }}
+              />
+              {event.admin.name}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body2" gutterBottom>
+              <LocationOnIcon
+                sx={{
+                  fontSize: "medium",
+                  verticalAlign: "middle",
+                  marginBottom: "4px",
+                  marginRight: "4px",
+                }}
+              />
+              {event.venue.address}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
+              <Map
+                mapId={"eventdetailmap"}
+                style={{ width: "90vw", height: "30vh" }}
+                defaultCenter={{
+                  lat: parseFloat(event.venue.lat),
+                  lng: parseFloat(event.venue.lng),
+                }}
+                defaultZoom={13}
+                gestureHandling={"greedy"}
+                disableDefaultUI={true}
+              >
+                <AdvancedMarker
+                  position={{
+                    lat: parseFloat(event.venue.lat),
+                    lng: parseFloat(event.venue.lng),
+                  }}
+                  title={"AdvancedMarker with customized pin."}
+                >
+                  <Pin
+                    background={"#22ccff"}
+                    borderColor={"#1e89a1"}
+                    glyphColor={"#0f677a"}
+                  ></Pin>
+                </AdvancedMarker>
+              </Map>
+            </APIProvider>
+            <Box sx={{ height: "15vw" }}></Box>
+          </Grid>
         </Grid>
-      </Grid>
+      </Box>
     </Box>
   ) : null;
 
@@ -150,16 +203,31 @@ export default function EventDetailPage() {
             justifyContent: "center",
           }}
         >
-          <Button variant="contained" onClick={handleClickOpen}>
-            Book
-          </Button>
+          <Box
+            sx={{
+              width: "90vw",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            {event && <Typography variant="body1">${event.price}</Typography>}
+            <Button
+              sx={{ width: "60vw" }}
+              variant="contained"
+              onClick={handleClickOpen}
+            >
+              Book
+            </Button>
+          </Box>
         </Toolbar>
       </AppBar>
 
-      <div>
-        <Link to="/">
-          <ArrowBackIcon />
-        </Link>
+      <Box>
+        <Box sx={{ position: "fixed", top: "5vw", left: "5vw", zIndex: 9999 }}>
+          <Link to="/home">
+            <ArrowBackIcon />
+          </Link>
+        </Box>
         {eventInfo}
 
         {showRegistration && (
@@ -167,7 +235,7 @@ export default function EventDetailPage() {
             <EventBookingPage eventId={eventId} isFree={isFree} />
           </Dialog>
         )}
-      </div>
+      </Box>
     </ThemeProvider>
   );
 }

@@ -1,23 +1,27 @@
 //-----------Libraries-----------//
 import { useState, useEffect } from "react";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import PropTypes from "prop-types";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { ThemeProvider } from "@mui/material/styles";
-import { Link, useNavigate } from "react-router-dom";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import { CardMedia } from "@mui/material";
+import axios from "axios";
+import PropTypes from "prop-types";
+import {
+  Tabs,
+  ThemeProvider,
+  Tab,
+  Typography,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardActions,
+  CardMedia,
+} from "@mui/material";
 
 //-----------Components-----------//
 import { BACKEND_URL } from "../../constant.js";
 import BookingPreview from "../../components/BookingPreview.js";
 import theme from "../../theme";
+import Redirect from "../../components/Redirect.js";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -74,13 +78,34 @@ export default function MyBookingPage() {
     }
   };
 
+  const RedirectTab = () => {
+    return (
+      <div>
+        <Redirect title="Booking" />
+        <Box
+          sx={{
+            paddingLeft: "5vh",
+            paddingRight: "5vh",
+          }}
+        >
+          <Button
+            sx={{ mt: 2 }}
+            fullWidth
+            variant="contained"
+            onClick={() => loginWithRedirect()}
+          >
+            Login
+          </Button>
+        </Box>
+      </div>
+    );
+  };
+
   const checkUser = async () => {
     if (isAuthenticated) {
       let token = await getAccessTokenSilently();
       setAccessToken(token);
       fetchData();
-    } else {
-      loginWithRedirect();
     }
   };
 
@@ -95,7 +120,6 @@ export default function MyBookingPage() {
           const response = await axios.get(`${BACKEND_URL}/bookings/current`, {
             params: { userId: userDb[0].id },
           });
-          console.log(response.data);
           const output = response.data;
           setCurrent(output);
         } catch (error) {
@@ -204,6 +228,14 @@ export default function MyBookingPage() {
         </Card>
       </>
     );
+
+  if (!isAuthenticated) {
+    return (
+      <ThemeProvider theme={theme}>
+        <RedirectTab />
+      </ThemeProvider>
+    );
+  }
 
   return (
     <>

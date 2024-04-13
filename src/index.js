@@ -15,11 +15,12 @@ import RegisterPage from "./pages/registerPage.js";
 import SignInPage from "./pages/signInPage.js";
 import ResetPasswordPage from "./pages/resetPasswordPage.js";
 import ErrorPage from "./pages/errorPage.js";
+import IntroPage from "./pages/introPage.js";
+import ContactUsPage from "./pages/contactUsPage.js";
 
 //-----------UserPages-----------//
 import HomePage from "./pages/userPages/homePage.js";
 import EventDetailPage from "./pages/userPages/eventDetailPage.js";
-import FavPage from "./pages/userPages/favPage.js";
 import MyBookingPage from "./pages/userPages/myBookingPage.js";
 import MyProfilePage from "./pages/userPages/myProfilePage.js";
 import CheckoutForm from "./pages/userPages/checkOutPage.js";
@@ -44,32 +45,10 @@ const AdminRoutes = () => (
   </Routes>
 );
 
-// const NonAdminRoutes = () => (
-//   <>
-//     <NavBar />
-//     <Routes>
-//       <Route path="/" element={<HomePage />} />
-//       <Route path="register" element={<RegisterPage />} />
-//       <Route path="reset-password" element={<ResetPasswordPage />} />
-//       <Route path="signin" element={<SignInPage />} />
-//       <Route path="fav" element={<FavPage />} />
-//       <Route path="mybooking" element={<MyBookingPage />} />
-//       <Route path="checkout" element={<CheckoutForm />} />
-//       <Route path="free-return" element={<FreeReturnPage />} />
-//       <Route path="/return" element={<ReturnPage />} />
-//       <Route path="profile" element={<MyProfilePage />} />
-//       <Route path="events/:eventId" element={<EventDetailPage />} />
-//       <Route path="search/" element={<SearchPage />} />
-//       <Route path="search/:keyword" element={<SearchPage />} />
-//       <Route path="*" element={<ErrorPage />} />
-//     </Routes>
-//   </>
-// );
-
 const NonAdminRoutes = () => (
   <Routes>
     <Route
-      path="/"
+      path="/home"
       element={
         <>
           <NavBar /> <HomePage />
@@ -93,6 +72,14 @@ const NonAdminRoutes = () => (
       }
     />
     <Route
+      path="contactus"
+      element={
+        <>
+          <NavBar /> <ContactUsPage />
+        </>
+      }
+    />
+    <Route
       path="search"
       element={
         <>
@@ -108,7 +95,7 @@ const NonAdminRoutes = () => (
         </>
       }
     />
-
+    <Route path="/" element={<IntroPage />} />
     <Route path="checkout" element={<CheckoutForm />} />
     <Route path="free-return" element={<FreeReturnPage />} />
     <Route path="/return" element={<ReturnPage />} />

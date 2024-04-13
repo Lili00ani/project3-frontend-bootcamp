@@ -1,5 +1,5 @@
 //-----------Libraries-----------//
-import { ThemeProvider } from "@mui/material/styles";
+import { Typography, ThemeProvider } from "@mui/material";
 import theme from "../../theme";
 
 //-----------Components-----------//
@@ -21,6 +21,12 @@ export default function HomePage() {
           marginBottom: "20vw",
         }}
       >
+        <Typography
+          variant="h6"
+          style={{ fontWeight: "bold", paddingLeft: "5vw" }}
+        >
+          Ongoing Events
+        </Typography>
         <EventPreviewList />
       </div>
     </ThemeProvider>

@@ -27,7 +27,7 @@ export default function NavBar() {
             margin: "0 30px",
           }}
         >
-          <Link to="/" sx={{ color: "primary" }}>
+          <Link to="/home" sx={{ color: "primary" }}>
             <ExploreIcon />
           </Link>
 
