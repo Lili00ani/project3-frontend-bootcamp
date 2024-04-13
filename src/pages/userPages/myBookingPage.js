@@ -26,7 +26,7 @@ function CustomTabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Typography>{children}</Typography>}
+      {value === index && <Typography component="div">{children}</Typography>}
     </div>
   );
 }
@@ -85,51 +85,61 @@ export default function MyBookingPage() {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${BACKEND_URL}/bookings/current`, {
-          params: {
-            userId: userDb && userDb.length > 0 ? userDb[0].id : null,
-          },
-        });
-        console.log(response.data);
-        const output = response.data;
-        setCurrent(output);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
+    if (userDb && userDb.length > 0) {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`${BACKEND_URL}/bookings/current`, {
+            params: { userId: userDb[0].id },
+          });
+          console.log(response.data);
+          const output = response.data;
+          setCurrent(output);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchData();
+    }
   }, [userDb]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${BACKEND_URL}/bookings/past`, {
-          params: { userId: userDb && userDb.length > 0 ? userDb[0].id : null },
-        });
-        const output = response.data;
-        setPast(output.event);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
+    if (userDb && userDb.length > 0) {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`${BACKEND_URL}/bookings/past`, {
+            params: { userId: userDb[0].id },
+          });
+          console.log(response.data);
+          const output = response.data;
+          setPast(output);
+          console.log(past);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      fetchData();
+    }
   }, [userDb]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const currentPreviews = current
-    ? current.map((booking) => (
+  const currentPreviews =
+    current.length > 0 ? (
+      current.map((booking) => (
         <BookingPreview data={booking} key={booking.id} />
       ))
-    : null;
+    ) : (
+      <h3>You don't have any upcoming events.</h3>
+    );
 
-  const pastPreviews = past
-    ? past.map((booking) => <BookingPreview data={booking} key={booking.id} />)
-    : null;
+  const pastPreviews =
+    past.length > 0 ? (
+      past.map((booking) => <BookingPreview data={booking} key={booking.id} />)
+    ) : (
+      <h3>You don't have any past events.</h3>
+    );
 
   return (
     <>
