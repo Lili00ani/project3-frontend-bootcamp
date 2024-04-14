@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 //-----------Components-----------//
 // import NavBar from "./components/navbar.js";
 
-import App from "./App.js";
 
 //-----------Styling-----------//
 import "./index.css";
