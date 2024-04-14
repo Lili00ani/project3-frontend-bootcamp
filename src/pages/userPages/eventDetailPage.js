@@ -77,8 +77,8 @@ export default function EventDetailPage() {
   const eventInfo = event ? (
     <Box>
       <img
-        src={`${process.env.PUBLIC_URL}/shoes.jpg`}
-        alt="shoes"
+        src={event.image_link}
+        alt={event.title}
         style={{
           width: "100%",
           height: "50vw",

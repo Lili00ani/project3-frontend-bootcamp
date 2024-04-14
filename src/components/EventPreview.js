@@ -35,8 +35,8 @@ const EventPreview = (props) => {
         <>
           <CardMedia
             sx={{ height: 120, position: "relative", borderRadius: 3 }}
-            image={`${process.env.PUBLIC_URL}/shoes.jpg`}
-            title="shoes"
+            image={props.data.image_link}
+            title={props.data.id}
           ></CardMedia>
           <Link
             to={`/events/${props.data.id}`}

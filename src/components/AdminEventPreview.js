@@ -29,14 +29,21 @@ const EventPreview = (props) => {
 
   const priceText = props.data.price === 0 ? "Free" : `$${props.data.price}`;
 
+  console.log(props);
+
   return (
     <Card sx={{ margin: "20px", borderRadius: 5 }}>
       <CardContent>
         <>
           <CardMedia
-            sx={{ height: 120, position: "relative", borderRadius: 3 }}
-            image={`${process.env.PUBLIC_URL}/shoes.jpg`}
-            title="shoes"
+            sx={{
+              height: 120,
+              borderRadius: 3,
+              objectFit: "contain",
+              objectPosition: "center",
+            }}
+            image={props.data.image_link}
+            title={props.data.id}
           ></CardMedia>
           {/* <Link
             to={`/events/${props.data.id}`}

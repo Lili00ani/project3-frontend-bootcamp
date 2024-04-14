@@ -6,6 +6,8 @@ import axios from "axios";
 import {
   Box,
   Grid,
+  CardMedia,
+  Input,
   InputAdornment,
   InputLabel,
   OutlinedInput,
@@ -41,6 +43,8 @@ export default function AdminCreateEvent() {
   const [address, setAddress] = useState();
   const [postalCode, setPostalCode] = useState();
   const [errorMessage, setErrorMessage] = useState(false);
+  const [file, setFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
   const {
     isAuthenticated,
     loginWithRedirect,
@@ -71,6 +75,14 @@ export default function AdminCreateEvent() {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (!file) {
+      return;
+    }
+
+    setPreviewUrl(URL.createObjectURL(file));
+  }, [file]);
 
   const onMapClick = (e) => {
     setMarker({
@@ -158,6 +170,7 @@ export default function AdminCreateEvent() {
         end: end,
         statusId: selectedStatusId,
         capacity: capacity,
+        image_link: previewUrl,
       });
 
       setTitle("");
@@ -173,12 +186,15 @@ export default function AdminCreateEvent() {
       setPostalCode("");
       setSelectedStatusId("");
       setCapacity("");
+      setPreviewUrl("");
 
       navigate("../home", { replace: true });
     } catch (error) {
       console.error("Error handling form submission:", error);
     }
   };
+
+  console.log(previewUrl);
 
   return (
     <Box sx={{ margin: "6vh" }}>
@@ -368,6 +384,17 @@ export default function AdminCreateEvent() {
           </Map>
         </APIProvider>
         <Box sx={{ height: "5vw" }}></Box>
+        <Input type="file" onChange={(e) => setFile(e.target.files[0])} />
+        <Box sx={{ height: "5vw" }}></Box>
+        {previewUrl && (
+          <CardMedia
+            sx={{ height: 120, position: "relative" }}
+            image={previewUrl}
+            title="shoes"
+          ></CardMedia>
+        )}
+        <Box sx={{ height: "5vw" }}></Box>
+
         <Button type="submit" fullWidth variant="contained" color="primary">
           Create Event
         </Button>
