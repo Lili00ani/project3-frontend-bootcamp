@@ -10,7 +10,7 @@ import NavBar from "./components/navbar.js";
 //-----------Styling-----------//
 import "./index.css";
 
-//-----------Pages-----------//
+//-----------Pages-----------///
 import ErrorPage from "./pages/errorPage.js";
 import IntroPage from "./pages/introPage.js";
 import ContactUsPage from "./pages/contactUsPage.js";
