@@ -114,7 +114,7 @@ export default function SearchPage() {
         }}
       >
         {events.length > 0 && ( // Only render the map if events are loaded
-          <APIProvider apiKey={process.env.GOOGLE_MAPS_API_KEY}>
+          <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
             <Map
               mapId={"searchedevents"}
               style={{ width: "100vw", height: "30vh" }}

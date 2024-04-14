@@ -1,26 +1,24 @@
 //-----------Libraries-----------//
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import SearchIcon from "@mui/icons-material/Search";
-import { styled, alpha } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
-import { Input, IconButton } from "@mui/material";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import Button from "@mui/material/Button";
-import { Chip, Stack } from "@mui/material";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
+import { useNavigate } from "react-router-dom";
+import {
+  Input,
+  Box,
+  Drawer,
+  Button,
+  Chip,
+  Stack,
+  List,
+  Divider,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
 import TuneIcon from "@mui/icons-material/Tune";
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
+import SearchIcon from "@mui/icons-material/Search";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import axios from "axios";
-import Container from "@mui/material/Container";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 
 //-----------Components-----------//
 import "./searchBar.css";
@@ -133,7 +131,7 @@ export default function SearchBar() {
           <FormGroup>{categoriesList}</FormGroup>
         </ListItem>
         <Divider />
-        <ListItem>
+        {/* <ListItem>
           <FormGroup>
             <FormControlLabel
               control={<Checkbox />}
@@ -146,7 +144,7 @@ export default function SearchBar() {
               onClick={(e) => e.stopPropagation()}
             />
           </FormGroup>
-        </ListItem>
+        </ListItem> */}
       </List>
       <Button variant="contained" onClick={handleSubmit}>
         Submit

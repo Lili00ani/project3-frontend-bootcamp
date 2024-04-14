@@ -1,11 +1,10 @@
 //-----------Libraries-----------//
-import { Box, Button, Typography, ThemeProvider } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, Typography, ThemeProvider } from "@mui/material";
 
 //-----------Components-----------//
 import theme from "../theme";
 
-export default function ErrorPage() {
+export default function ContactUsPage() {
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -23,17 +22,11 @@ export default function ErrorPage() {
           variant="h4"
           style={{ marginBottom: 20, fontWeight: "bold" }}
         >
-          Error
+          Contact Us
         </Typography>
-        <Button
-          component={Link}
-          to="/home"
-          variant="contained"
-          fullWidth
-          sx={{ color: "primary", fontSize: "1 rem" }}
-        >
-          Go Back to Homepage
-        </Button>
+        <Typography variant="body2" style={{ marginBottom: 20 }}>
+          Email us at eventlink@gmail.com
+        </Typography>
       </Box>
     </ThemeProvider>
   );

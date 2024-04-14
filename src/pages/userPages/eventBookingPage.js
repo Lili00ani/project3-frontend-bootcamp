@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Box, Button, Typography, ThemeProvider } from "@mui/material";
-import { styles } from "@mui/system";
+import { useAuth0 } from "@auth0/auth0-react";
 
 //-----------Components-----------//
 import { BACKEND_URL } from "../../constant.js";
@@ -13,6 +13,16 @@ export default function EventBookingPage({ eventId, isFree }) {
   const [quantity, setQuantity] = useState(1);
   const [capacity, setCapacity] = useState();
   const [event, setEvent] = useState();
+  const [userDb, setUserDb] = useState();
+  const [accessToken, setAccessToken] = useState();
+  const {
+    isAuthenticated,
+    loginWithRedirect,
+    logout,
+    isLoading,
+    getAccessTokenSilently,
+    user,
+  } = useAuth0();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +53,36 @@ export default function EventBookingPage({ eventId, isFree }) {
     fetchData();
   }, [eventId]);
 
+  const fetchData = async () => {
+    try {
+      if (user && user.email) {
+        const response = await axios.post(`${BACKEND_URL}/users/`, {
+          email: user.email,
+        });
+        const output = response.data;
+        setUserDb(output);
+      } else {
+        console.log("User email is undefined.");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const checkUser = async () => {
+    if (isAuthenticated) {
+      let token = await getAccessTokenSilently();
+      setAccessToken(token);
+      fetchData();
+    } else {
+      loginWithRedirect();
+    }
+  };
+
+  useEffect(() => {
+    checkUser();
+  }, []);
+
   const handleIncrement = () => {
     if (quantity < capacity) {
       setQuantity(quantity + 1);
@@ -63,7 +103,7 @@ export default function EventBookingPage({ eventId, isFree }) {
       <Box
         sx={{
           margin: "30px",
-          width: "70vw",
+          width: "68vw",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -104,7 +144,11 @@ export default function EventBookingPage({ eventId, isFree }) {
           <Button
             component={Link}
             to={isFree ? "/free-return" : "/checkout"}
-            state={{ eventId: eventId, quantity: quantity }}
+            state={{
+              eventId: eventId,
+              quantity: quantity,
+              user_id: userDb && userDb.length > 0 ? userDb[0].id : null,
+            }}
             variant="contained"
             color="primary"
           >

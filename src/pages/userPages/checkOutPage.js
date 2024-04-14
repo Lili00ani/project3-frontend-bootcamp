@@ -18,6 +18,7 @@ const CheckoutForm = () => {
   const location = useLocation();
   const eventId = location.state.eventId;
   const quantity_bought = location.state.quantity;
+  const user_id = location.state.user_id;
   const { user, loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
     useAuth0();
   const [accessToken, setAccessToken] = useState(null);
@@ -44,6 +45,7 @@ const CheckoutForm = () => {
         `${BACKEND_URL}/bookings/create-checkout-session/${eventId}`,
         {
           quantity_bought: quantity_bought,
+          user_id: user_id,
         },
         {
           headers: {
@@ -54,14 +56,14 @@ const CheckoutForm = () => {
       .then((response) => response.data.clientSecret)
       .catch((error) => {
         console.error("Error fetching client secret:", error);
-        throw error; // rethrow the error to handle it elsewhere if needed
+        throw error;
       });
-  }, [accessToken, eventId, quantity_bought]);
-  //[accessToken, eventId, quantity_bought]);
+  }, [accessToken, eventId, quantity_bought, user_id]);
 
   const options = { fetchClientSecret };
   console.log(options);
 
+  console.log("User ID:", user_id);
   return (
     <div id="checkout">
       <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>

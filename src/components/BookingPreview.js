@@ -35,7 +35,7 @@ const BookingPreview = (props) => {
   return (
     <Card sx={{ margin: "20px", borderRadius: 5 }}>
       <CardContent>
-        <APIProvider apiKey={process.env.GOOGLE_MAPS_API_KEY}>
+        <APIProvider apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
           <Map
             mapId={"bookingpreview"}
             style={{ width: "80vw", height: "20vh" }}
