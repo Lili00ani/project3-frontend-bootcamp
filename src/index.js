@@ -33,6 +33,7 @@ import AdminProfilePage from "./pages/adminPages/adminProfilePage.js";
 import AdminCreateEvent from "./pages/adminPages/adminCreateEvent.js";
 import { Toaster } from "react-hot-toast";
 import AdminSettingsPage from "./pages/adminPages/adminSettingsPage.js";
+import AdminEventPage from "./pages/adminPages/adminEventPage.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -48,6 +49,7 @@ const AdminRoutes = () => (
         </>
       }
     />
+    <Route path="/:eventId" element={<AdminEventPage />} />
     <Route path="create" element={<AdminCreateEvent />} />
     <Route path="edit" element={<AdminCreateEvent />} />
     <Route
@@ -126,7 +128,7 @@ const NonAdminRoutes = () => (
     <Route path="checkout" element={<CheckoutForm />} />
     <Route path="free-return" element={<FreeReturnPage />} />
     <Route path="/return" element={<ReturnPage />} />
-    <Route path="events/:eventId" element={<EventDetailPage />} />
+    <Route path="/:eventId" element={<EventDetailPage />} />
     {/* <Route path="*" element={<ErrorPage />} /> */}
   </Routes>
 );

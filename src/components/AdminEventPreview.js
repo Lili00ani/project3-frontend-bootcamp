@@ -45,48 +45,48 @@ const EventPreview = (props) => {
             image={props.data.image_link}
             title={props.data.id}
           ></CardMedia>
-          {/* <Link
-            to={`/events/${props.data.id}`}
+          <Link
+            to={`/admin/${props.data.id}`}
             key={props.data.id}
             style={{ display: "block", textDecoration: "none" }}
-          > */}
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ paddingTop: "8px" }}
           >
-            {formatDate(props.data.start)}-{formatHour(props.data.end)}
-          </Typography>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <div style={{ flex: 1 }}>
-              <Typography
-                gutterBottom
-                variant="h6"
-                component="div"
-                sx={{ padding: "0px", margin: "0px" }}
-              >
-                {props.data.title}
-              </Typography>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ paddingTop: "8px" }}
+            >
+              {formatDate(props.data.start)}-{formatHour(props.data.end)}
+            </Typography>
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <div style={{ flex: 1 }}>
+                <Typography
+                  gutterBottom
+                  variant="h6"
+                  component="div"
+                  sx={{ padding: "0px", margin: "0px" }}
+                >
+                  {props.data.title}
+                </Typography>
+              </div>
+              <div style={{ flex: 1, textAlign: "right" }}>
+                <Typography
+                  gutterBottom
+                  variant="h6"
+                  color="text.primary"
+                  sx={{ padding: "0px", margin: "0px" }}
+                >
+                  {priceText}
+                </Typography>
+              </div>
             </div>
-            <div style={{ flex: 1, textAlign: "right" }}>
-              <Typography
-                gutterBottom
-                variant="h6"
-                color="text.primary"
-                sx={{ padding: "0px", margin: "0px" }}
-              >
-                {priceText}
-              </Typography>
-            </div>
-          </div>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ paddingTop: "8px" }}
-          >
-            {props.data.status.name}
-          </Typography>
-          {/* </Link> */}
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ paddingTop: "8px" }}
+            >
+              {props.data.status.name}
+            </Typography>
+          </Link>
         </>
       </CardContent>
     </Card>
