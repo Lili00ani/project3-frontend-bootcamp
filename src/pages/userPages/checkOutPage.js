@@ -46,6 +46,7 @@ const CheckoutForm = () => {
         {
           quantity_bought: quantity_bought,
           user_id: user_id,
+          email: user.email,
         },
         {
           headers: {

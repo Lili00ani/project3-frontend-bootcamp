@@ -17,7 +17,7 @@
 //-----------UserPages-----------//
 import HomePage from "./pages/userPages/homePage.js";
 import EventDetailPage from "./pages/userPages/eventDetailPage.js";
-import FavPage from "./pages/userPages/favPage.js";
+// import FavPage from "./pages/userPages/favPage.js";
 import MyBookingPage from "./pages/userPages/myBookingPage.js";
 import MyProfilePage from "./pages/userPages/myProfilePage.js";
 import CheckoutForm from "./pages/userPages/checkOutPage.js";
@@ -69,7 +69,7 @@ const App = () => {
         ) : (
           <>
             <Route path="/profile" element={<MyProfilePage />} />
-            <Route path="fav" element={<FavPage />} />
+            {/* <Route path="fav" element={<FavPage />} /> */}
             <Route path="mybooking" element={<MyBookingPage />} />
             <Route path="checkout" element={<CheckoutForm />} />
             <Route path="free-return" element={<FreeReturnPage />} />

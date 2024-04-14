@@ -2,8 +2,9 @@
 import React from "react";
 import { Auth0Provider } from "@auth0/auth0-react";
 import ReactDOM from "react-dom/client";
-
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 //-----------Components-----------//
+// import NavBar from "./components/navbar.js";
 
 import App from "./App.js";
 
@@ -30,6 +31,7 @@ import AdminHomePage from "./pages/adminPages/adminHomePage.js";
 import AdminProfilePage from "./pages/adminPages/adminProfilePage.js";
 import AdminCreateEvent from "./pages/adminPages/AdminCreateEvent.jsx";
 import { Toaster } from "react-hot-toast";
+import NavBar from "./components/navbar.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
