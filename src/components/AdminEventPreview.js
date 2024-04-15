@@ -29,17 +29,24 @@ const EventPreview = (props) => {
 
   const priceText = props.data.price === 0 ? "Free" : `$${props.data.price}`;
 
+  console.log(props);
+
   return (
     <Card sx={{ margin: "20px", borderRadius: 5 }}>
       <CardContent>
         <>
           <CardMedia
-            sx={{ height: 120, position: "relative", borderRadius: 3 }}
+            sx={{
+              height: 120,
+              borderRadius: 3,
+              objectFit: "contain",
+              objectPosition: "center",
+            }}
             image={props.data.image_link}
             title={props.data.id}
           ></CardMedia>
           <Link
-            to={`/events/${props.data.id}`}
+            to={`/admin/${props.data.id}`}
             key={props.data.id}
             style={{ display: "block", textDecoration: "none" }}
           >
@@ -75,9 +82,9 @@ const EventPreview = (props) => {
             <Typography
               variant="body2"
               color="text.secondary"
-              sx={{ padding: "0px", margin: "0px" }}
+              sx={{ paddingTop: "8px" }}
             >
-              {props.data.admin.name}
+              {props.data.status.name}
             </Typography>
           </Link>
         </>

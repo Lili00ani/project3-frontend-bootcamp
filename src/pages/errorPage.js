@@ -27,7 +27,7 @@ export default function ErrorPage() {
         </Typography>
         <Button
           component={Link}
-          to="/home"
+          to="/"
           variant="contained"
           fullWidth
           sx={{ color: "primary", fontSize: "1 rem" }}
