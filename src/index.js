@@ -4,13 +4,13 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 //-----------Components-----------//
-// import NavBar from "./components/navbar.js";
-
+import NavBar from "./components/navbar.js";
+import AdminNavBar from "./components/AdminNavBar.js";
 
 //-----------Styling-----------//
 import "./index.css";
 
-//-----------Pages-----------//
+//-----------Pages-----------///
 import ErrorPage from "./pages/errorPage.js";
 import IntroPage from "./pages/introPage.js";
 import ContactUsPage from "./pages/contactUsPage.js";
@@ -26,20 +26,50 @@ import ReturnPage from "./pages/userPages/returnPage.js";
 import SearchPage from "./pages/userPages/searchPage.js";
 
 //-----------AdminPages-----------//
+import AdminIntroPage from "./pages/adminPages/adminIntroPage.js";
 import AdminHomePage from "./pages/adminPages/adminHomePage.js";
 import AdminProfilePage from "./pages/adminPages/adminProfilePage.js";
-import AdminCreateEvent from "./pages/adminPages/AdminCreateEvent.jsx";
+import AdminCreateEvent from "./pages/adminPages/adminCreateEvent.js";
 import { Toaster } from "react-hot-toast";
-import NavBar from "./components/navbar.js";
+import AdminSettingsPage from "./pages/adminPages/adminSettingsPage.js";
+import AdminEventPage from "./pages/adminPages/adminEventPage.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const AdminRoutes = () => (
   <Routes>
-    <Route path="/" element={<AdminHomePage />} />
+    <Route path="/" element={<AdminIntroPage />} />
+    <Route
+      path="/home"
+      element={
+        <>
+          <AdminNavBar />
+          <AdminHomePage />
+        </>
+      }
+    />
+    <Route path="/:eventId" element={<AdminEventPage />} />
+    <Route path="create" element={<AdminCreateEvent />} />
     <Route path="edit" element={<AdminCreateEvent />} />
-    <Route path="add" element={<AdminCreateEvent />} />
-    <Route path="profile" element={<AdminProfilePage />} />
+    <Route
+      path="profile"
+      element={
+        <>
+          <AdminNavBar />
+          <AdminProfilePage />
+        </>
+      }
+    />
+    <Route
+      path="settings"
+      element={
+        <>
+          <AdminNavBar />
+          <AdminSettingsPage />
+        </>
+      }
+    />
+    {/* <Route path="*" element={<ErrorPage />} /> */}
   </Routes>
 );
 
@@ -97,29 +127,67 @@ const NonAdminRoutes = () => (
     <Route path="checkout" element={<CheckoutForm />} />
     <Route path="free-return" element={<FreeReturnPage />} />
     <Route path="/return" element={<ReturnPage />} />
-    <Route path="events/:eventId" element={<EventDetailPage />} />
-    <Route path="*" element={<ErrorPage />} />
+    <Route path="/:eventId" element={<EventDetailPage />} />
+    {/* <Route path="*" element={<ErrorPage />} /> */}
   </Routes>
 );
 
 const newUrl = window.location.origin + "/home";
+const newUrlAdmin = window.location.origin + "/admin/home";
 
 root.render(
-  <Auth0Provider
-    domain={process.env.REACT_APP_AUTH0_DOMAIN}
-    clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
-    authorizationParams={{
-      redirect_uri: newUrl,
-    }}
-    useRefreshTokens
-    cacheLocation="localstorage"
-  >
-    <BrowserRouter>
-      <Routes>
-        <Route path="admin/*" element={<AdminRoutes />} />
-        <Route path="/*" element={<NonAdminRoutes />} />
-      </Routes>
-      <Toaster />
-    </BrowserRouter>
-  </Auth0Provider>
+  <>
+    <Auth0Provider
+      domain={process.env.REACT_APP_AUTH0_DOMAIN}
+      clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
+      authorizationParams={{
+        redirect_uri: newUrl,
+      }}
+      useRefreshTokens
+      cacheLocation="localstorage"
+    >
+      <BrowserRouter>
+        <Routes>
+          <Route path="/*" element={<NonAdminRoutes />} />
+        </Routes>
+        <Toaster />
+      </BrowserRouter>
+    </Auth0Provider>
+    <Auth0Provider
+      domain={process.env.REACT_APP_AUTH0_DOMAIN}
+      clientId={process.env.REACT_APP_AUTH0_ADMIN_CLIENT_ID}
+      authorizationParams={{
+        redirect_uri: newUrlAdmin,
+      }}
+    >
+      <BrowserRouter>
+        <Routes>
+          <Route path="admin/*" element={<AdminRoutes />} />
+        </Routes>
+        <Toaster />
+      </BrowserRouter>
+    </Auth0Provider>
+  </>
 );
+
+// root.render(
+//   <>
+//     <Auth0Provider
+//       domain={process.env.REACT_APP_AUTH0_DOMAIN}
+//       clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
+//       authorizationParams={{
+//         redirect_uri: newUrl,
+//       }}
+//       useRefreshTokens
+//       cacheLocation="localstorage"
+//     >
+//       <BrowserRouter>
+//         <Routes>
+//           <Route path="admin/*" element={<AdminRoutes />} />
+//           <Route path="/*" element={<NonAdminRoutes />} />
+//         </Routes>
+//         <Toaster />
+//       </BrowserRouter>
+//     </Auth0Provider>
+//   </>
+// );
