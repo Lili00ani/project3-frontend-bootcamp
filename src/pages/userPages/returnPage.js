@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import { BrowserRouter as Router, Navigate, Link } from "react-router-dom";
-import { Box, Button, Typography, ThemeProvider } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  Grid,
+  Typography,
+  ThemeProvider,
+} from "@mui/material";
 import ConfettiExplosion from "react-confetti-explosion";
 
 import { BACKEND_URL } from "../../constant.js";
@@ -14,9 +21,31 @@ const stripePromise = loadStripe(
 
 export default function ReturnPage() {
   const [status, setStatus] = useState(null);
+  const [event, setEvent] = useState();
   const [customerEmail, setCustomerEmail] = useState("");
   const [loading, setLoading] = useState(true);
   const [isExploding, setIsExploding] = useState(false);
+
+  const formatDate = (string) => {
+    const date = new Date(string);
+    const options = {
+      day: "numeric",
+      month: "long",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    return date.toLocaleDateString("en-US", options);
+  };
+
+  //add logic to see whether start and end date is the same.
+  const formatHour = (string) => {
+    const date = new Date(string);
+    const options = {
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    return date.toLocaleTimeString("en-US", options);
+  };
 
   const mediumProps = {
     force: 0.6,
@@ -43,6 +72,8 @@ export default function ReturnPage() {
         setCustomerEmail(response.data.customer_email);
         setLoading(false);
         setIsExploding("true");
+
+        const eventResponse = await axios.get();
       } catch (error) {
         console.error("Error fetching client secret:", error);
         setLoading(false);
@@ -55,6 +86,21 @@ export default function ReturnPage() {
   useEffect(() => {
     console.log("Status updated:", status);
   }, [status]);
+
+  useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const eventId = urlParams.get("eventId");
+    axios
+      .get(`${BACKEND_URL}/events/${eventId}`)
+
+      .then((response) => {
+        setEvent(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data", error);
+      });
+  }, []);
 
   if (loading) {
     return <p>Loading...</p>;
@@ -81,6 +127,36 @@ export default function ReturnPage() {
           <Typography variant="body2" style={{ marginBottom: 20 }}>
             Your event reservation is complete
           </Typography>
+          <Card sx={{ marginBottom: "5vh" }}>
+            <Grid sx={{ padding: "2vh" }}>
+              <Grid item xs={12}>
+                <Typography
+                  variant="body1"
+                  paragraph
+                  style={{ fontWeight: "bold" }}
+                >
+                  {event.title}
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="body2" style={{ marginBottom: 20 }}>
+                  {new Date(event.start).toLocaleString("en-US", {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    hour: "numeric",
+                    minute: "numeric",
+                  })}
+                  -
+                  {new Date(event.end).toLocaleString("en-US", {
+                    hour: "numeric",
+                    minute: "numeric",
+                  })}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Card>
+
           {isExploding && <ConfettiExplosion {...mediumProps} />}
           <Button
             component={Link}
