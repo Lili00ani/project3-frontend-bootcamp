@@ -128,7 +128,7 @@ const NonAdminRoutes = () => (
     <Route path="checkout" element={<CheckoutForm />} />
     <Route path="free-return" element={<FreeReturnPage />} />
     <Route path="/return" element={<ReturnPage />} />
-    <Route path="/:eventId" element={<EventDetailPage />} />
+    <Route path="/events/:eventId" element={<EventDetailPage />} />
     {/* <Route path="*" element={<ErrorPage />} /> */}
   </Routes>
 );
