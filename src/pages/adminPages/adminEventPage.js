@@ -9,6 +9,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 export default function AdminEventPage() {
   const [bookings, setBookings] = useState([]);
   const [eventId, setEventId] = useState();
+  const [capacity, setCapacity] = useState();
+  const [event, setEvent] = useState();
 
   const fetchBookingsForEvent = async () => {
     try {
@@ -26,29 +28,60 @@ export default function AdminEventPage() {
     setEventId(params.eventId);
   }
 
-  console.log(bookings);
   useEffect(() => {
     if (eventId) {
       fetchBookingsForEvent();
     }
   }, [eventId]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${BACKEND_URL}/bookings/capacity/${eventId}`
+        );
+
+        setCapacity(response.data.availableCapacity);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [eventId]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_URL}/events/${eventId}`);
+
+        setEvent(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [eventId]);
+
   const bookingList =
     bookings.length > 0 ? (
-      <Box>
+      <Card>
         {bookings.map((booking) => (
-          <Box key={booking.id} sx={{ marginTop: 2 }}>
+          <Box key={booking.id} sx={{ padding: "2vh" }}>
             <Typography variant="body2">User: {booking.user.email}</Typography>
             <Typography variant="body2">
               Quantity Bought: {booking.quantity_bought}
             </Typography>
+            <Typography variant="body2" sx={{ fontSize: 11 }}>
+              BookingId: {booking.id}
+            </Typography>
           </Box>
         ))}
-      </Box>
+      </Card>
     ) : (
       <Box
         sx={{
-          height: "80vh",
           paddingTop: "25vh",
         }}
       >
@@ -91,7 +124,13 @@ export default function AdminEventPage() {
           <ArrowBackIcon />
         </Link>
       </Box>
-      {bookingList}
+      <Box sx={{ height: "5vh" }}></Box>
+
+      <Box sx={{ padding: "5vh" }}>
+        {event && <Typography>Total slots: {event.capacity}</Typography>}
+        {capacity && <Typography>Slots left: {capacity}</Typography>}
+      </Box>
+      <Box sx={{ paddingLeft: "5vh", paddingRight: "5vh" }}>{bookingList}</Box>
     </ThemeProvider>
   );
 }

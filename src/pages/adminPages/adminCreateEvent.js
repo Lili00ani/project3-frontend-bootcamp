@@ -80,8 +80,9 @@ export default function AdminCreateEvent() {
     if (!file) {
       return;
     }
-
-    setPreviewUrl(URL.createObjectURL(file));
+    const previewUrl = URL.createObjectURL(file);
+    setPreviewUrl(previewUrl);
+    localStorage.setItem("test", previewUrl);
   }, [file]);
 
   const onMapClick = (e) => {

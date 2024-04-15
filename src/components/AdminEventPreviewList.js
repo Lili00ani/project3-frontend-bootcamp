@@ -60,7 +60,12 @@ const AdminEventPreviewList = ({ adminId }) => {
   const eventPreviews = events.map((event) => (
     <AdminEventPreview key={event.id} data={event} />
   ));
-  return <>{eventPreviews}</>;
+  return (
+    <>
+      {eventPreviews}
+      <Box sx={{ height: "5vh" }}></Box>
+    </>
+  );
 };
 
 export default AdminEventPreviewList;
