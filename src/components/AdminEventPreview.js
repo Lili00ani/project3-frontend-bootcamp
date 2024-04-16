@@ -1,8 +1,12 @@
 //-----------Libraries-----------//
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import { CardMedia } from "@mui/material";
-import Typography from "@mui/material/Typography";
+import React, { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 
 const EventPreview = (props) => {
@@ -79,14 +83,14 @@ const EventPreview = (props) => {
                 </Typography>
               </div>
             </div>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ paddingTop: "8px" }}
-            >
-              {props.data.status.name}
-            </Typography>
           </Link>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ paddingTop: "8px" }}
+          >
+            {props.data.status.name}
+          </Typography>
         </>
       </CardContent>
     </Card>

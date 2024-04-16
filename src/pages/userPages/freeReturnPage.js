@@ -2,7 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import ConfettiExplosion from "react-confetti-explosion";
-import { Box, Button, Typography, ThemeProvider } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Button,
+  Card,
+  Typography,
+  ThemeProvider,
+} from "@mui/material";
 
 import { BACKEND_URL } from "../../constant.js";
 import theme from "../../theme";
@@ -14,6 +21,28 @@ export default function FreeReturnPage() {
   const user_id = location.state.user_id;
   const quantity_bought = location.state.quantity;
   const [isExploding, setIsExploding] = useState(false);
+  const [event, setEvent] = useState();
+
+  const formatDate = (string) => {
+    const date = new Date(string);
+    const options = {
+      day: "numeric",
+      month: "long",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    return date.toLocaleDateString("en-US", options);
+  };
+
+  //add logic to see whether start and end date is the same.
+  const formatHour = (string) => {
+    const date = new Date(string);
+    const options = {
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    return date.toLocaleTimeString("en-US", options);
+  };
 
   const mediumProps = {
     force: 0.6,
@@ -35,6 +64,18 @@ export default function FreeReturnPage() {
       })
       .catch((error) => {
         console.error("Error inserting data", error);
+      });
+  }, [eventId, quantity_bought, user_id]);
+
+  useEffect(() => {
+    axios
+      .get(`${BACKEND_URL}/events/${eventId}`)
+
+      .then((response) => {
+        setEvent(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data", error);
       });
   }, []);
 
@@ -59,6 +100,36 @@ export default function FreeReturnPage() {
             <Typography variant="body2" style={{ marginBottom: 20 }}>
               Your event reservation is complete
             </Typography>
+            <Card sx={{ marginBottom: "5vh" }}>
+              <Grid sx={{ padding: "2vh" }}>
+                <Grid item xs={12}>
+                  <Typography
+                    variant="body1"
+                    paragraph
+                    style={{ fontWeight: "bold" }}
+                  >
+                    {event.title}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="body2" style={{ marginBottom: 20 }}>
+                    {new Date(event.start).toLocaleString("en-US", {
+                      weekday: "long",
+                      day: "numeric",
+                      month: "long",
+                      hour: "numeric",
+                      minute: "numeric",
+                    })}
+                    -
+                    {new Date(event.end).toLocaleString("en-US", {
+                      hour: "numeric",
+                      minute: "numeric",
+                    })}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Card>
+
             {isExploding && <ConfettiExplosion {...mediumProps} />}
             <Button
               component={Link}
