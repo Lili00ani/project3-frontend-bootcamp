@@ -12,7 +12,6 @@ import AdminNavBar from "./components/AdminNavBar.js";
 import "./index.css";
 
 //-----------Pages-----------///
-import ErrorPage from "./pages/errorPage.js";
 import IntroPage from "./pages/introPage.js";
 import ContactUsPage from "./pages/contactUsPage.js";
 
@@ -70,7 +69,6 @@ const AdminRoutes = () => (
         </>
       }
     />
-    {/* <Route path="*" element={<ErrorPage />} /> */}
   </Routes>
 );
 
@@ -129,7 +127,6 @@ const NonAdminRoutes = () => (
     <Route path="free-return" element={<FreeReturnPage />} />
     <Route path="/return" element={<ReturnPage />} />
     <Route path="/events/:eventId" element={<EventDetailPage />} />
-    {/* <Route path="*" element={<ErrorPage />} /> */}
   </Routes>
 );
 
@@ -172,25 +169,3 @@ root.render(
     </Auth0Provider>
   </>
 );
-
-// root.render(
-//   <>
-//     <Auth0Provider
-//       domain={process.env.REACT_APP_AUTH0_DOMAIN}
-//       clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
-//       authorizationParams={{
-//         redirect_uri: newUrl,
-//       }}
-//       useRefreshTokens
-//       cacheLocation="localstorage"
-//     >
-//       <BrowserRouter>
-//         <Routes>
-//           <Route path="admin/*" element={<AdminRoutes />} />
-//           <Route path="/*" element={<NonAdminRoutes />} />
-//         </Routes>
-//         <Toaster />
-//       </BrowserRouter>
-//     </Auth0Provider>
-//   </>
-// );

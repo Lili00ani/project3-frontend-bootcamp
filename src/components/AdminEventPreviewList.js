@@ -1,21 +1,29 @@
 //-----------Libraries-----------//
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Box, Card, CardMedia, Typography } from "@mui/material";
+import { Box, CardMedia, Typography } from "@mui/material";
 
 //-----------Components-----------//
 import AdminEventPreview from "./AdminEventPreview";
 import { BACKEND_URL } from "../constant.js";
 
-const AdminEventPreviewList = ({ adminId }) => {
+const AdminEventPreviewList = ({ adminId, accessToken }) => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post(`${BACKEND_URL}/events/admin`, {
-          adminId: adminId,
-        });
+        const response = await axios.post(
+          `${BACKEND_URL}/events/admin`,
+          {
+            adminId: adminId,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         setEvents(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);

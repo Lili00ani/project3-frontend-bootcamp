@@ -10,13 +10,12 @@ import {
   ListItemText,
 } from "@mui/material";
 import {
-  CalendarToday as CalendarTodayIcon,
   ContactSupport as ContactSupportIcon,
   ExitToApp as ExitToAppIcon,
 } from "@mui/icons-material";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 //-----------Components-----------//
 import { BACKEND_URL } from "../../constant.js";
@@ -31,7 +30,6 @@ const AdminProfilePage = () => {
     getAccessTokenSilently,
     user,
   } = useAuth0();
-  const domain = process.env.REACT_APP_AUTH0_DOMAIN;
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState();
   const [adminDb, setAdminDb] = useState();
@@ -39,9 +37,17 @@ const AdminProfilePage = () => {
   const fetchData = async () => {
     try {
       if (user && user.email) {
-        const response = await axios.post(`${BACKEND_URL}/admins/`, {
-          email: user.email,
-        });
+        const response = await axios.post(
+          `${BACKEND_URL}/admins/`,
+          {
+            email: user.email,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         const output = response.data;
         setAdminDb(output[0]);
       } else {

@@ -11,7 +11,6 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  Paper,
   Typography,
   TextField,
   Button,
@@ -27,7 +26,6 @@ import { BACKEND_URL } from "../../constant.js";
 export default function AdminCreateEvent() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [venueId, setVenueId] = useState("");
   const [adminId, setAdminId] = useState("");
   const [price, setPrice] = useState("");
   const [start, setStart] = useState("");
@@ -45,19 +43,13 @@ export default function AdminCreateEvent() {
   const [errorMessage, setErrorMessage] = useState(false);
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
-  const {
-    isAuthenticated,
-    loginWithRedirect,
-    logout,
-    isLoading,
-    getAccessTokenSilently,
-    user,
-  } = useAuth0();
+  const { isAuthenticated, isLoading, getAccessTokenSilently, user } =
+    useAuth0();
   const [accessToken, setAccessToken] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchCategories = async () => {
       try {
         const [categoriesResponse, languagesResponse, statusesResponse] =
           await Promise.all([
@@ -73,8 +65,45 @@ export default function AdminCreateEvent() {
         console.error("Error fetching data:", error);
       }
     };
-    fetchData();
+    fetchCategories();
   }, []);
+
+  const checkUser = async () => {
+    if (isAuthenticated) {
+      try {
+        let token = await getAccessTokenSilently();
+        setAccessToken(token);
+        if (user && user.email) {
+          const response = await axios.post(
+            `${BACKEND_URL}/admins/`,
+            {
+              email: user.email,
+              name: "CC",
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+          const output = response.data;
+          setAdminId(output[0].id);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkUser();
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (!isAuthenticated && !isLoading) {
+      navigate("/admin");
+    }
+  }, [isAuthenticated, isLoading, navigate]);
 
   useEffect(() => {
     if (!file) {
@@ -91,41 +120,6 @@ export default function AdminCreateEvent() {
       lng: e.detail.latLng.lng,
     });
   };
-
-  const fetchData = async () => {
-    try {
-      if (user && user.email) {
-        const response = await axios.post(`${BACKEND_URL}/admins/`, {
-          email: user.email,
-          name: "CC",
-        });
-
-        const output = response.data;
-
-        setAdminId(output[0].id);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  const checkUser = async () => {
-    if (isAuthenticated) {
-      let token = await getAccessTokenSilently();
-      setAccessToken(token);
-      fetchData();
-    }
-  };
-
-  useEffect(() => {
-    checkUser();
-  }, []);
-
-  useEffect(() => {
-    if (!isAuthenticated && !isLoading) {
-      navigate("/admin");
-    }
-  }, [isAuthenticated, isLoading, navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -145,40 +139,57 @@ export default function AdminCreateEvent() {
       !marker
     ) {
       setErrorMessage(true);
-      return; // Prevent form submission
+      return;
     }
 
+    //get venueId based on lat and lng google maps marker
     try {
-      const venueResponse = await axios.post(`${BACKEND_URL}/venues`, {
-        lat: marker.lat,
-        lng: marker.lng,
-        postal_code: postalCode,
-        address: address,
-        country: "Singapore",
-      });
+      const venueResponse = await axios.post(
+        `${BACKEND_URL}/venues`,
+        {
+          lat: marker.lat,
+          lng: marker.lng,
+          postal_code: postalCode,
+          address: address,
+          country: "Singapore",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
       const venueId = venueResponse.data.id;
 
-      await axios.post(`${BACKEND_URL}/events`, {
-        title: title,
-        description: description,
-        languageId: selectedLanguageId,
-        categoryId: selectedCategoryId,
-        venueId: venueId,
-        adminId: adminId,
-        price: price,
-        start: start,
-        end: end,
-        statusId: selectedStatusId,
-        capacity: capacity,
-        image_link: previewUrl,
-      });
+      //create event in database
+      await axios.post(
+        `${BACKEND_URL}/events`,
+        {
+          title: title,
+          description: description,
+          languageId: selectedLanguageId,
+          categoryId: selectedCategoryId,
+          venueId: venueId,
+          adminId: adminId,
+          price: price,
+          start: start,
+          end: end,
+          statusId: selectedStatusId,
+          capacity: capacity,
+          image_link: previewUrl,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
       setTitle("");
       setDescription("");
       setSelectedLanguageId("");
       setSelectedCategoryId("");
-      setVenueId("");
       setAdminId("");
       setPrice("");
       setStart("");
@@ -194,8 +205,6 @@ export default function AdminCreateEvent() {
       console.error("Error handling form submission:", error);
     }
   };
-
-  console.log(previewUrl);
 
   return (
     <Box sx={{ margin: "6vh" }}>

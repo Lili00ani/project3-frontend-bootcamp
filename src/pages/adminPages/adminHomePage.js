@@ -1,6 +1,6 @@
 //-----------Libraries-----------//
 import { Typography, ThemeProvider } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -11,28 +11,18 @@ import theme from "../../theme";
 import { BACKEND_URL } from "../../constant.js";
 
 export default function AdminHomePage() {
-  const {
-    isAuthenticated,
-    loginWithRedirect,
-    logout,
-    isLoading,
-    getAccessTokenSilently,
-    user,
-  } = useAuth0();
-  const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+  const { isAuthenticated, isLoading, getAccessTokenSilently, user } =
+    useAuth0();
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState();
   const [adminId, setAdminId] = useState();
-
-  const handleLogin = () => {
-    navigate("/admin/home");
-  };
 
   useEffect(() => {
     const fetchAdminId = async () => {
       try {
         if (user && user.email) {
           const token = await getAccessTokenSilently();
+          setAccessToken(token);
           const response = await axios.post(
             `${BACKEND_URL}/admins/`,
             {
@@ -44,9 +34,7 @@ export default function AdminHomePage() {
               },
             }
           );
-          console.log("success");
           const output = response.data;
-          console.log(output);
           setAdminId(output[0].id);
         } else {
           console.log("User email is undefined.");
@@ -60,9 +48,6 @@ export default function AdminHomePage() {
       fetchAdminId();
     }
   }, [getAccessTokenSilently, isAuthenticated, user]);
-
-  console.log(isAuthenticated);
-  console.log(adminId);
 
   useEffect(() => {
     if (!isAuthenticated && !isLoading) {
@@ -85,7 +70,9 @@ export default function AdminHomePage() {
         >
           Your Events
         </Typography>
-        {adminId && <AdminEventPreviewList adminId={adminId} />}
+        {adminId && (
+          <AdminEventPreviewList adminId={adminId} accessToken={accessToken} />
+        )}
       </div>
     </ThemeProvider>
   );
