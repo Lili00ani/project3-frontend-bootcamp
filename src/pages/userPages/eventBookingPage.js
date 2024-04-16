@@ -15,14 +15,8 @@ export default function EventBookingPage({ eventId, isFree }) {
   const [event, setEvent] = useState();
   const [userDb, setUserDb] = useState();
   const [accessToken, setAccessToken] = useState();
-  const {
-    isAuthenticated,
-    loginWithRedirect,
-    logout,
-    isLoading,
-    getAccessTokenSilently,
-    user,
-  } = useAuth0();
+  const { isAuthenticated, loginWithRedirect, getAccessTokenSilently, user } =
+    useAuth0();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,9 +50,17 @@ export default function EventBookingPage({ eventId, isFree }) {
   const fetchData = async () => {
     try {
       if (user && user.email) {
-        const response = await axios.post(`${BACKEND_URL}/users/`, {
-          email: user.email,
-        });
+        const response = await axios.post(
+          `${BACKEND_URL}/users/`,
+          {
+            email: user.email,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         const output = response.data;
         setUserDb(output);
       } else {

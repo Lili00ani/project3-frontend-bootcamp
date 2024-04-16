@@ -28,20 +28,11 @@ export default function EventDetailPage() {
   const [eventId, setEventId] = useState();
   const [showRegistration, setShowRegistraton] = useState(null);
   const [isFree, setIsFree] = useState(null);
-  const { user, loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
-    useAuth0();
-  const [accessToken, setAccessToken] = useState();
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
+
   const fetchData = async () => {
-    if (isAuthenticated) {
-      let token = await getAccessTokenSilently();
-      setAccessToken(token);
-    }
     try {
-      const response = await axios.get(`${BACKEND_URL}/events/${eventId}`, {
-        headers: {
-          authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await axios.get(`${BACKEND_URL}/events/${eventId}`);
       setEvent(response.data);
       setIsFree(response.data.price === 0);
     } catch (error) {

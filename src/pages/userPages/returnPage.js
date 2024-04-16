@@ -1,3 +1,4 @@
+//-----------Libraries-----------//
 import { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
@@ -11,7 +12,9 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import ConfettiExplosion from "react-confetti-explosion";
+import { useAuth0 } from "@auth0/auth0-react";
 
+//-----------Components-----------//
 import { BACKEND_URL } from "../../constant.js";
 import theme from "../../theme";
 
@@ -22,9 +25,10 @@ const stripePromise = loadStripe(
 export default function ReturnPage() {
   const [status, setStatus] = useState(null);
   const [event, setEvent] = useState();
-  const [customerEmail, setCustomerEmail] = useState("");
   const [loading, setLoading] = useState(true);
   const [isExploding, setIsExploding] = useState(false);
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const [accessToken, setAccessToken] = useState();
 
   const formatDate = (string) => {
     const date = new Date(string);
@@ -37,7 +41,6 @@ export default function ReturnPage() {
     return date.toLocaleDateString("en-US", options);
   };
 
-  //add logic to see whether start and end date is the same.
   const formatHour = (string) => {
     const date = new Date(string);
     const options = {
@@ -54,6 +57,21 @@ export default function ReturnPage() {
     width: 1600,
   };
 
+  const checkUser = async () => {
+    if (isAuthenticated) {
+      try {
+        let token = await getAccessTokenSilently();
+        setAccessToken(token);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkUser();
+  }, [isAuthenticated]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -65,15 +83,17 @@ export default function ReturnPage() {
         const user = urlParams.get("user");
 
         const response = await axios.get(
-          `http://localhost:3000/bookings/session-status?session_id=${sessionId}&eventId=${eventId}&quantity=${quantity}&user=${user}`
+          `http://localhost:3000/bookings/session-status?session_id=${sessionId}&eventId=${eventId}&quantity=${quantity}&user=${user}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
         );
 
         setStatus(response.data.status);
-        setCustomerEmail(response.data.customer_email);
         setLoading(false);
         setIsExploding("true");
-
-        const eventResponse = await axios.get();
       } catch (error) {
         console.error("Error fetching client secret:", error);
         setLoading(false);
