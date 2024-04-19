@@ -123,9 +123,7 @@ export default function SearchBar() {
             X
           </Button>
         </ListItem>
-
         <Divider />
-
         <ListItem>
           <FormGroup>{categoriesList}</FormGroup>
         </ListItem>

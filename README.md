@@ -1,6 +1,6 @@
 # Rocket Academy Coding Bootcamp: Project 3 Frontend
 
-## Event Link
+# Event Link
 
 Event Link is a mobile-oriented platform designed to facilitate event management for both users and administrators. With its intuitive user interface and robust administrative tools, Event Link simplifies the process of organizing and participating in events.
 
@@ -21,11 +21,19 @@ User Insights: Administrators can view the email addresses of users who have boo
 Usage
 To utilize Event Link, simply access the platform from your mobile device's browser. Users can start exploring events immediately, while administrators can log in to access the administrative dashboard.
 
+## ERD
+
+https://drawsql.app/teams/l-67/diagrams/event
+
+## UI Wireframes
+
+https://www.figma.com/file/HHel7Q8qyt8eSzQyMVlJDj/Kendi-x-Lili-Project?type=design&node-id=1%3A2&mode=design&t=e8HLvaPKKFWyRDky-1
+
 ## Technologies Used
 
-Frontend: MUI
-Backend: Node.js, Express.js, Nodemailer,
-Database: Sequelize
+Frontend: MUI (Material-UI)
+Backend: Node.js, Express.js, Nodemailer
+Database: Sequelize (ORM for PostgreSQL)
 Payment Processing: Stripe API
 Mapping: Google Maps API
 
