@@ -1,15 +1,8 @@
 //-----------Libraries-----------//
 import { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {
-  Button,
-  Dialog,
-  Box,
-  TextField,
-  Typography,
-  Grid,
-} from "@mui/material";
+import { Button, Box, TextField, Grid } from "@mui/material";
 import { ThemeProvider } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -19,14 +12,8 @@ import theme from "../../theme.js";
 
 export default function AdminSettingsPage() {
   const [admin, setAdmin] = useState();
-  const {
-    user,
-    loginWithRedirect,
-    isLoading,
-    isAuthenticated,
-    getAccessTokenSilently,
-  } = useAuth0();
-  const [accessToken, setAccessToken] = useState();
+  const { user, isLoading, isAuthenticated, getAccessTokenSilently } =
+    useAuth0();
   const [editName, setEditName] = useState("");
   const navigate = useNavigate();
 
@@ -47,7 +34,6 @@ export default function AdminSettingsPage() {
               },
             }
           );
-          console.log("success");
           const output = response.data;
           setAdmin(output[0]);
           if (output && output[0].name) {
@@ -87,7 +73,6 @@ export default function AdminSettingsPage() {
           },
         }
       );
-      console.log("Update success");
       setAdmin({ ...admin, name: editName });
       navigate("../profile", { replace: true });
     } catch (error) {

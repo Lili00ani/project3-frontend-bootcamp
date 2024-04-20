@@ -1,3 +1,4 @@
+//-----------Libraries-----------//
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -10,7 +11,9 @@ import {
   Typography,
   ThemeProvider,
 } from "@mui/material";
+import { useAuth0 } from "@auth0/auth0-react";
 
+//-----------Components-----------//
 import { BACKEND_URL } from "../../constant.js";
 import theme from "../../theme";
 
@@ -22,6 +25,8 @@ export default function FreeReturnPage() {
   const quantity_bought = location.state.quantity;
   const [isExploding, setIsExploding] = useState(false);
   const [event, setEvent] = useState();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const [accessToken, setAccessToken] = useState();
 
   const formatDate = (string) => {
     const date = new Date(string);
@@ -34,7 +39,6 @@ export default function FreeReturnPage() {
     return date.toLocaleDateString("en-US", options);
   };
 
-  //add logic to see whether start and end date is the same.
   const formatHour = (string) => {
     const date = new Date(string);
     const options = {
@@ -51,13 +55,36 @@ export default function FreeReturnPage() {
     width: 1600,
   };
 
+  const checkUser = async () => {
+    if (isAuthenticated) {
+      try {
+        let token = await getAccessTokenSilently();
+        setAccessToken(token);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkUser();
+  }, [isAuthenticated]);
+
   useEffect(() => {
     axios
-      .post(`${BACKEND_URL}/bookings/${eventId}`, {
-        eventId: eventId,
-        quantity_bought: quantity_bought,
-        user_id: user_id,
-      })
+      .post(
+        `${BACKEND_URL}/bookings/${eventId}`,
+        {
+          eventId: eventId,
+          quantity_bought: quantity_bought,
+          user_id: user_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
       .then((response) => {
         setStatus("complete");
         setIsExploding("true");

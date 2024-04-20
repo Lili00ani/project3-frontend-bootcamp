@@ -61,7 +61,6 @@ export default function SearchBar() {
       navigate(`/search/${keyword}`, {
         state: { categories: selectedCategories },
       });
-      // Handle response from backend
     } catch (error) {
       console.error("Error searching", error);
     }
@@ -102,7 +101,7 @@ export default function SearchBar() {
         />
       }
       label={category.name}
-      onClick={(e) => e.stopPropagation()} // Prevent closing the drawer when clicking on the checkbox
+      onClick={(e) => e.stopPropagation()}
     />
   ));
 
@@ -124,27 +123,11 @@ export default function SearchBar() {
             X
           </Button>
         </ListItem>
-
         <Divider />
-
         <ListItem>
           <FormGroup>{categoriesList}</FormGroup>
         </ListItem>
         <Divider />
-        {/* <ListItem>
-          <FormGroup>
-            <FormControlLabel
-              control={<Checkbox />}
-              label="Free"
-              onClick={(e) => e.stopPropagation()}
-            />
-            <FormControlLabel
-              control={<Checkbox />}
-              label="Paid"
-              onClick={(e) => e.stopPropagation()}
-            />
-          </FormGroup>
-        </ListItem> */}
       </List>
       <Button variant="contained" onClick={handleSubmit}>
         Submit
@@ -167,7 +150,7 @@ export default function SearchBar() {
         sx={{
           width: "100%",
           display: "flex",
-          justifyContent: "center", // Center content horizontally
+          justifyContent: "center",
         }}
       >
         <Input
@@ -189,9 +172,9 @@ export default function SearchBar() {
           style={{
             flexGrow: 1,
             marginTop: "10px",
-            overflowX: "auto", // Enable vertical scrolling
+            overflowX: "auto",
             scrollbarWidth: "none",
-            maxHeight: "200px", // Adjust the max height as needed
+            maxHeight: "200px",
           }}
         >
           <Stack direction="row" spacing={1}>

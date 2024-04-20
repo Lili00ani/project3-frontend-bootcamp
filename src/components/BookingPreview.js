@@ -1,15 +1,5 @@
 //-----------Libraries-----------//
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import {
-  Tabs,
-  ThemeProvider,
-  Tab,
-  Typography,
-  Box,
-  Button,
-  CardMedia,
-} from "@mui/material";
+import { Card, Typography, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import {
   APIProvider,
@@ -17,12 +7,6 @@ import {
   AdvancedMarker,
   Pin,
 } from "@vis.gl/react-google-maps";
-import { QRCodeCanvas } from "qrcode.react";
-import Accordion from "@mui/material/Accordion";
-import AccordionActions from "@mui/material/AccordionActions";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const BookingPreview = (props) => {
   const formatDate = (string) => {
@@ -92,23 +76,10 @@ const BookingPreview = (props) => {
           {props.data.event.venue.address}
         </Typography>
 
-        {/* <Typography variant="body2">BookingId :{props.data.id}</Typography> */}
         <Typography variant="body2">
           Quantity :{props.data.quantity_bought}
         </Typography>
       </Box>
-      {/* <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1-content"
-            id="panel1-header"
-          >
-            Ticket
-          </AccordionSummary>
-          <AccordionDetails>
-            <QRCodeCanvas value={props.data.id} />
-          </AccordionDetails>
-        </Accordion> */}
     </Card>
   );
 };

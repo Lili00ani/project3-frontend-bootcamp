@@ -1,6 +1,5 @@
 //-----------Libraries-----------//
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import PropTypes from "prop-types";
@@ -51,13 +50,10 @@ export default function MyBookingPage() {
   const {
     isAuthenticated,
     loginWithRedirect,
-    logout,
     isLoading,
     getAccessTokenSilently,
     user,
   } = useAuth0();
-  const domain = process.env.REACT_APP_AUTH0_DOMAIN;
-  const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState();
 
   const fetchData = async () => {
@@ -113,9 +109,17 @@ export default function MyBookingPage() {
     if (userDb && userDb.length > 0) {
       const fetchData = async () => {
         try {
-          const response = await axios.get(`${BACKEND_URL}/bookings/current`, {
-            params: { userId: userDb[0].id },
-          });
+          const response = await axios.get(
+            `${BACKEND_URL}/bookings/current`,
+            {
+              params: { userId: userDb[0].id },
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
           const output = response.data;
           setCurrent(output);
         } catch (error) {
@@ -130,9 +134,17 @@ export default function MyBookingPage() {
     if (userDb && userDb.length > 0) {
       const fetchData = async () => {
         try {
-          const response = await axios.get(`${BACKEND_URL}/bookings/past`, {
-            params: { userId: userDb[0].id },
-          });
+          const response = await axios.get(
+            `${BACKEND_URL}/bookings/past`,
+            {
+              params: { userId: userDb[0].id },
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
           const output = response.data;
           setPast(output);
         } catch (error) {

@@ -1,7 +1,6 @@
 //-----------Libraries-----------//
 import { Box, Button, Typography, ThemeProvider } from "@mui/material";
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
 //-----------Components-----------//

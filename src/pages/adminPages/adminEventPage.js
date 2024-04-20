@@ -1,67 +1,81 @@
+//-----------Libraries-----------//
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Box, Card, CardMedia, Typography, ThemeProvider } from "@mui/material";
-import { useParams, Link } from "react-router-dom";
-import theme from "../../theme";
-import { BACKEND_URL } from "../../constant.js";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useAuth0 } from "@auth0/auth0-react";
+
+import { BACKEND_URL } from "../../constant.js";
+import theme from "../../theme";
 
 export default function AdminEventPage() {
   const [bookings, setBookings] = useState([]);
   const [eventId, setEventId] = useState();
   const [capacity, setCapacity] = useState();
   const [event, setEvent] = useState();
-
-  const fetchBookingsForEvent = async () => {
-    try {
-      const response = await axios.get(`${BACKEND_URL}/bookings/${eventId}`);
-      const { bookings } = response.data;
-
-      setBookings(bookings);
-    } catch (error) {
-      console.error("Error fetching bookings:", error);
-    }
-  };
+  const [accessToken, setAccessToken] = useState();
+  const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+  const navigate = useNavigate();
 
   const params = useParams();
   if (eventId !== params.eventId) {
     setEventId(params.eventId);
   }
 
-  useEffect(() => {
-    if (eventId) {
-      fetchBookingsForEvent();
+  const checkUser = async () => {
+    if (isAuthenticated) {
+      try {
+        let token = await getAccessTokenSilently();
+        setAccessToken(token);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     }
-  }, [eventId]);
+  };
+
+  useEffect(() => {
+    checkUser();
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (!isAuthenticated && !isLoading) {
+      navigate("/admin");
+    }
+  }, [isAuthenticated, isLoading, navigate]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
+        const eventResponse = await axios.get(
+          `${BACKEND_URL}/events/${eventId}`
+        );
+        setEvent(eventResponse.data);
+
+        // Fetch available capacity
+        const capacityResponse = await axios.get(
           `${BACKEND_URL}/bookings/capacity/${eventId}`
         );
+        setCapacity(capacityResponse.data.availableCapacity);
 
-        setCapacity(response.data.availableCapacity);
+        // Fetch all bookings for the event
+        const bookingsResponse = await axios.get(
+          `${BACKEND_URL}/bookings/${eventId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        setBookings(bookingsResponse.data.bookings);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
-    fetchData();
-  }, [eventId]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${BACKEND_URL}/events/${eventId}`);
-
-        setEvent(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
+    if (eventId) {
+      fetchData();
+    }
   }, [eventId]);
 
   const bookingList =

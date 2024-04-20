@@ -1,12 +1,6 @@
 //-----------Libraries-----------//
 import React, { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Button,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const EventPreview = (props) => {
@@ -32,8 +26,6 @@ const EventPreview = (props) => {
   };
 
   const priceText = props.data.price === 0 ? "Free" : `$${props.data.price}`;
-
-  console.log(props);
 
   return (
     <Card sx={{ margin: "20px", borderRadius: 5 }}>
