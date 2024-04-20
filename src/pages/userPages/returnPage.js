@@ -16,6 +16,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 //-----------Components-----------//
 import { BACKEND_URL } from "../../constant.js";
+import { FRONTEND_URL } from "../../constant.js";
 import theme from "../../theme";
 
 const stripePromise = loadStripe(
@@ -83,7 +84,7 @@ export default function ReturnPage() {
         const user = urlParams.get("user");
 
         const response = await axios.get(
-          `http://localhost:3000/bookings/session-status?session_id=${sessionId}&eventId=${eventId}&quantity=${quantity}&user=${user}`,
+          `${FRONTEND_URL}/bookings/session-status?session_id=${sessionId}&eventId=${eventId}&quantity=${quantity}&user=${user}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
